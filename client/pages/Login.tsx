@@ -6,7 +6,7 @@ export default function Login() {
   const loginWithGoogle = async () => {
     if (!supabase) {
       alert(
-        "Google login is not configured. Please connect Supabase and set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY."
+        "Google login is not configured. Please connect Supabase and set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.",
       );
       return;
     }

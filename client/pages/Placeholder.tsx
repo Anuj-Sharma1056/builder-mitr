@@ -17,7 +17,9 @@ export default function Placeholder({
             <Sparkles className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{title}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+              {title}
+            </h1>
             <p className="mt-2 text-muted-foreground">{description}</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link

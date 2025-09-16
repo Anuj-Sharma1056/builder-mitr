@@ -9,7 +9,9 @@ export default function AuthCallback() {
   useEffect(() => {
     const run = async () => {
       if (!supabase) {
-        setMessage("Auth not configured. Please set Supabase environment variables.");
+        setMessage(
+          "Auth not configured. Please set Supabase environment variables.",
+        );
         return;
       }
       const { data, error } = await supabase.auth.getSession();

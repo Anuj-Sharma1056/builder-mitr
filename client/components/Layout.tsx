@@ -16,9 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link to="/" className="flex items-center gap-2">
             <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-cyan-500 to-emerald-500 shadow-inner" />
-            <span className="text-xl font-extrabold tracking-tight">
-              MITR
-            </span>
+            <span className="text-xl font-extrabold tracking-tight">MITR</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-1">
@@ -31,7 +29,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     "px-3 py-2 rounded-md text-sm font-medium transition-colors",
                     isActive
                       ? "text-primary bg-primary/10"
-                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent",
                   )
                 }
               >
@@ -65,9 +63,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             © {new Date().getFullYear()} MITR — Mental Wellness, with a friend.
           </p>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <a className="hover:text-foreground" href="#privacy">Privacy</a>
-            <a className="hover:text-foreground" href="#terms">Terms</a>
-            <a className="hover:text-foreground" href="#contact">Contact</a>
+            <a className="hover:text-foreground" href="#privacy">
+              Privacy
+            </a>
+            <a className="hover:text-foreground" href="#terms">
+              Terms
+            </a>
+            <a className="hover:text-foreground" href="#contact">
+              Contact
+            </a>
           </div>
         </div>
       </footer>

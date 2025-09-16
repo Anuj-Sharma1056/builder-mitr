@@ -2,30 +2,107 @@ import React, { useState, useRef, useMemo, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { marked } from "marked";
 
-const DEFAULT_BACKEND = "https://mental-healthcare-guidance-chatbot.onrender.com";
+const DEFAULT_BACKEND =
+  "https://mental-healthcare-guidance-chatbot.onrender.com";
 
 const MicSVG = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    <path d="M5 11a7 7 0 0 0 14 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    <path d="M12 18v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <path
+      d="M5 11a7 7 0 0 0 14 0"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <path
+      d="M12 18v3"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
   </svg>
 );
 
 const SendSVG = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M22 2L11 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M22 2L11 13"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M22 2L15 22L11 13L2 9L22 2Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
 const DeleteSVG = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-muted-foreground hover:text-destructive transition-colors">
-    <path d="M10 11V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M14 11V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M4 7H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M6 7H18V18C18 19.6569 16.6569 21 15 21H9C7.34315 21 6 19.6569 6 18V7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="text-muted-foreground hover:text-destructive transition-colors"
+  >
+    <path
+      d="M10 11V17"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M14 11V17"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M4 7H20"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M6 7H18V18C18 19.6569 16.6569 21 15 21H9C7.34315 21 6 19.6569 6 18V7Z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
@@ -36,7 +113,13 @@ const MenuSVG = ({ isSidebarOpen }: { isSidebarOpen: boolean }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M15 4.5L7.5 12L15 19.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path
+      d="M15 4.5L7.5 12L15 19.5"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
@@ -66,7 +149,13 @@ const UserWaveformVisualizer = () => (
   </div>
 );
 
-const UserMessage = ({ content, isSpeaking }: { content: string; isSpeaking: boolean }) => (
+const UserMessage = ({
+  content,
+  isSpeaking,
+}: {
+  content: string;
+  isSpeaking: boolean;
+}) => (
   <div className="flex justify-end mb-2">
     <div className="bg-primary text-primary-foreground p-3 rounded-lg max-w-[80%] whitespace-pre-wrap break-words shadow-lg flex flex-col items-center gap-2 overflow-hidden">
       {isSpeaking && (
@@ -79,7 +168,15 @@ const UserMessage = ({ content, isSpeaking }: { content: string; isSpeaking: boo
   </div>
 );
 
-const AiMessage = ({ content, isPlaying, bars }: { content: string; isPlaying: boolean; bars: number[] }) => {
+const AiMessage = ({
+  content,
+  isPlaying,
+  bars,
+}: {
+  content: string;
+  isPlaying: boolean;
+  bars: number[];
+}) => {
   const htmlContent = useMemo(() => marked(content), [content]);
 
   return (
@@ -90,7 +187,10 @@ const AiMessage = ({ content, isPlaying, bars }: { content: string; isPlaying: b
             <WaveformVisualizer bars={bars} />
           </div>
         )}
-        <div className="ai-markdown-content" dangerouslySetInnerHTML={{ __html: htmlContent as string }} />
+        <div
+          className="ai-markdown-content"
+          dangerouslySetInnerHTML={{ __html: htmlContent as string }}
+        />
       </div>
     </div>
   );
@@ -106,11 +206,14 @@ function useOutputAnalyser() {
 
   useEffect(() => {
     if (!audioCtxRef.current) {
-      const Ctx = (window as any).AudioContext || (window as any).webkitAudioContext;
+      const Ctx =
+        (window as any).AudioContext || (window as any).webkitAudioContext;
       audioCtxRef.current = new Ctx();
       analyserRef.current = audioCtxRef.current.createAnalyser();
       analyserRef.current.fftSize = 256;
-      dataArrayRef.current = new Uint8Array(analyserRef.current.frequencyBinCount);
+      dataArrayRef.current = new Uint8Array(
+        analyserRef.current.frequencyBinCount,
+      );
     }
   }, []);
 
@@ -145,8 +248,12 @@ function useOutputAnalyser() {
 
   const stopPlayback = () => {
     if (sourceRef.current) {
-      try { sourceRef.current.stop(); } catch {}
-      try { sourceRef.current.disconnect(); } catch {}
+      try {
+        sourceRef.current.stop();
+      } catch {}
+      try {
+        sourceRef.current.disconnect();
+      } catch {}
       sourceRef.current = null;
     }
     setIsPlaying(false);
@@ -169,7 +276,8 @@ function useOutputAnalyser() {
       const bucket = Math.floor(arr.length / columns);
       const next = new Array(columns).fill(0).map((_: any, i: number) => {
         let m = 0;
-        for (let j = i * bucket; j < (i + 1) * bucket; j++) m = Math.max(m, arr[j] || 0);
+        for (let j = i * bucket; j < (i + 1) * bucket; j++)
+          m = Math.max(m, arr[j] || 0);
         return Math.max(0, Math.round((m / 255) * 80));
       });
       setBars(next as number[]);
@@ -183,7 +291,8 @@ function useOutputAnalyser() {
 }
 
 function beep(open = true) {
-  const Ctx = (window as any).AudioContext || (window as any).webkitAudioContext;
+  const Ctx =
+    (window as any).AudioContext || (window as any).webkitAudioContext;
   const ctx = new Ctx();
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
@@ -207,7 +316,12 @@ const sampleQueries = [
   "How can I manage stress at work?",
 ];
 
-const fetchWithRetry = async (url: string, options: RequestInit, retries = 3, delay = 1000) => {
+const fetchWithRetry = async (
+  url: string,
+  options: RequestInit,
+  retries = 3,
+  delay = 1000,
+) => {
   try {
     const response = await fetch(url, options);
     if (!response.ok) {
@@ -233,15 +347,18 @@ export default function Chat() {
   const { isPlaying, bars, playBlob, stopPlayback } = useOutputAnalyser();
   const voice = "Kore";
   const [activeChatId, setActiveChatId] = useState("chat-1");
-  const [chatSessions, setChatSessions] = useState<{ id: string; title: string }[]>([
-    { id: "chat-1", title: "New Chat" },
-  ]);
+  const [chatSessions, setChatSessions] = useState<
+    { id: string; title: string }[]
+  >([{ id: "chat-1", title: "New Chat" }]);
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const language = "en-US";
 
-  const filteredMessages = useMemo(() => allMessages[activeChatId] || [], [allMessages, activeChatId]);
+  const filteredMessages = useMemo(
+    () => allMessages[activeChatId] || [],
+    [allMessages, activeChatId],
+  );
 
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -259,7 +376,10 @@ export default function Chat() {
       setChatSessions((prevSessions) =>
         prevSessions.map((session) =>
           session.id === activeChatId
-            ? { ...session, title: query.slice(0, 20) + (query.length > 20 ? "..." : "") }
+            ? {
+                ...session,
+                title: query.slice(0, 20) + (query.length > 20 ? "..." : ""),
+              }
             : session,
         ),
       );
@@ -268,7 +388,10 @@ export default function Chat() {
     const newUserMessage = { role: "user", content: query, id: Date.now() };
     setAllMessages((prevAllMessages) => ({
       ...prevAllMessages,
-      [activeChatId]: [...(prevAllMessages[activeChatId] || []), newUserMessage],
+      [activeChatId]: [
+        ...(prevAllMessages[activeChatId] || []),
+        newUserMessage,
+      ],
     }));
     setInputMessage("");
     setIsThinking(true);
@@ -291,7 +414,8 @@ export default function Chat() {
       rawAnswer = json.answer || rawAnswer;
     } catch (e: any) {
       if (e instanceof TypeError && e.message === "Failed to fetch") {
-        rawAnswer = "Connection failed. The server might be asleep or unreachable. Please try again in a moment.";
+        rawAnswer =
+          "Connection failed. The server might be asleep or unreachable. Please try again in a moment.";
       } else {
         rawAnswer = `An error occurred: ${e.message}`;
       }
@@ -299,11 +423,17 @@ export default function Chat() {
       const newAiMessage = { role: "ai", content: rawAnswer, id: Date.now() };
       setAllMessages((prevAllMessages) => ({
         ...prevAllMessages,
-        [activeChatId]: [...(prevAllMessages[activeChatId] || []), newAiMessage],
+        [activeChatId]: [
+          ...(prevAllMessages[activeChatId] || []),
+          newAiMessage,
+        ],
       }));
 
       if (rawAnswer && !rawAnswer.includes("Connection failed")) {
-        ttsText = rawAnswer.replace(/\*\*(.*?)\*\*/g, "$1").replace(/\[(.*?)\]\(.*?\)/g, "$1").replace(/[#*_-]/g, "");
+        ttsText = rawAnswer
+          .replace(/\*\*(.*?)\*\*/g, "$1")
+          .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+          .replace(/[#*_-]/g, "");
 
         try {
           const ttsBody = new URLSearchParams();
@@ -330,7 +460,9 @@ export default function Chat() {
   };
 
   const startRecognition = () => {
-    const SpeechRecognition: any = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const SpeechRecognition: any =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
       setErrorMessage("Speech recognition is not supported in this browser.");
       setShowError(true);
@@ -410,12 +542,15 @@ export default function Chat() {
   };
 
   const handleDeleteChat = (chatIdToDelete: string) => {
-    const remainingSessions = chatSessions.filter((s) => s.id !== chatIdToDelete);
+    const remainingSessions = chatSessions.filter(
+      (s) => s.id !== chatIdToDelete,
+    );
     if (remainingSessions.length === 0) {
       resetToInitialState();
     } else {
       setChatSessions(remainingSessions);
-      if (activeChatId === chatIdToDelete) setActiveChatId(remainingSessions[0].id);
+      if (activeChatId === chatIdToDelete)
+        setActiveChatId(remainingSessions[0].id);
       setAllMessages((prev) => {
         const next: Record<string, any[]> = { ...prev };
         delete next[chatIdToDelete];
@@ -445,12 +580,19 @@ export default function Chat() {
       `}</style>
 
       <div className="flex h-[75vh] overflow-hidden rounded-3xl">
-        <aside className={`hidden md:flex flex-col transition-all duration-300 border-r ${isSidebarOpen ? "w-64" : "w-0"}`}>
-          <div className={`flex flex-col flex-1 p-4 ${isSidebarOpen ? "opacity-100" : "opacity-0"}`}>
+        <aside
+          className={`hidden md:flex flex-col transition-all duration-300 border-r ${isSidebarOpen ? "w-64" : "w-0"}`}
+        >
+          <div
+            className={`flex flex-col flex-1 p-4 ${isSidebarOpen ? "opacity-100" : "opacity-0"}`}
+          >
             <h2 className="text-lg font-semibold mb-4">Chat History</h2>
             <div className="flex-1 overflow-y-auto">
               {chatSessions.map((chat) => (
-                <div key={chat.id} className="flex items-center justify-between group">
+                <div
+                  key={chat.id}
+                  className="flex items-center justify-between group"
+                >
                   <button
                     onClick={() => handleChatSelect(chat.id)}
                     className={`flex-1 text-left py-2 px-3 rounded-lg mb-2 transition-colors ${activeChatId === chat.id ? "bg-accent" : "hover:bg-accent"} overflow-hidden whitespace-nowrap text-ellipsis`}
@@ -458,7 +600,10 @@ export default function Chat() {
                     {chat.title}
                   </button>
                   <button
-                    onClick={(e) => { e.stopPropagation(); handleDeleteChat(chat.id); }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteChat(chat.id);
+                    }}
                     className="p-2 ml-2 transition-opacity opacity-0 group-hover:opacity-100"
                     aria-label={`Delete chat ${chat.title}`}
                   >
@@ -467,21 +612,37 @@ export default function Chat() {
                 </div>
               ))}
             </div>
-            <button onClick={handleNewChat} className="mt-4 w-full py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">+ New Chat</button>
-            <button onClick={handleClearAllChats} className="mt-2 w-full py-2 rounded-lg border hover:bg-accent">Clear All Chats</button>
+            <button
+              onClick={handleNewChat}
+              className="mt-4 w-full py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              + New Chat
+            </button>
+            <button
+              onClick={handleClearAllChats}
+              className="mt-2 w-full py-2 rounded-lg border hover:bg-accent"
+            >
+              Clear All Chats
+            </button>
           </div>
         </aside>
 
         <div className="flex-1 flex flex-col">
           <header className="flex items-center justify-between p-4 border-b">
             <div className="flex items-center">
-              <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="mr-2 p-2 rounded-full hover:bg-accent" aria-label={isSidebarOpen ? "Hide sidebar" : "Show sidebar"}>
+              <button
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                className="mr-2 p-2 rounded-full hover:bg-accent"
+                aria-label={isSidebarOpen ? "Hide sidebar" : "Show sidebar"}
+              >
                 <MenuSVG isSidebarOpen={isSidebarOpen} />
               </button>
               <h1 className="text-xl font-bold">Mental Health AI Assistant</h1>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground hidden sm:block">Session: {activeChatId}</span>
+              <span className="text-sm text-muted-foreground hidden sm:block">
+                Session: {activeChatId}
+              </span>
             </div>
           </header>
 
@@ -489,11 +650,17 @@ export default function Chat() {
             <div className="max-w-3xl mx-auto flex flex-col h-full">
               {filteredMessages.length === 0 ? (
                 <div className="flex-1 flex flex-col items-center justify-center text-center text-muted-foreground">
-                  <h2 className="text-3xl font-semibold mb-2">Your Compassionate Buddy</h2>
+                  <h2 className="text-3xl font-semibold mb-2">
+                    Your Compassionate Buddy
+                  </h2>
                   <p className="max-w-md">How can I help you today?</p>
                   <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl">
                     {sampleQueries.map((query, index) => (
-                      <button key={index} onClick={() => handleSendMessage(query)} className="bg-accent hover:bg-accent/80 text-foreground p-4 rounded-lg shadow-sm text-left">
+                      <button
+                        key={index}
+                        onClick={() => handleSendMessage(query)}
+                        className="bg-accent hover:bg-accent/80 text-foreground p-4 rounded-lg shadow-sm text-left"
+                      >
                         {query}
                       </button>
                     ))}
@@ -503,11 +670,24 @@ export default function Chat() {
                 <div className="flex-1 overflow-y-auto mb-4">
                   <AnimatePresence>
                     {filteredMessages.map((msg: any) => (
-                      <motion.div key={msg.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                      <motion.div
+                        key={msg.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                      >
                         {msg.role === "user" ? (
-                          <UserMessage content={msg.content} isSpeaking={isListening} />
+                          <UserMessage
+                            content={msg.content}
+                            isSpeaking={isListening}
+                          />
                         ) : (
-                          <AiMessage content={msg.content} isPlaying={isPlaying} bars={bars} />
+                          <AiMessage
+                            content={msg.content}
+                            isPlaying={isPlaying}
+                            bars={bars}
+                          />
                         )}
                       </motion.div>
                     ))}
@@ -521,26 +701,48 @@ export default function Chat() {
           <footer className="p-4 border-t">
             <div className="max-w-3xl mx-auto flex items-center gap-2">
               <div className="relative w-full">
-                {isListening && <div className="absolute inset-0 bg-primary/10 rounded-xl animate-pulse" />}
+                {isListening && (
+                  <div className="absolute inset-0 bg-primary/10 rounded-xl animate-pulse" />
+                )}
                 <input
                   type="text"
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyDown={handleKeyDown}
                   disabled={isListening || isThinking}
-                  placeholder={isListening ? "Listening..." : "Type your message or use the mic..."}
+                  placeholder={
+                    isListening
+                      ? "Listening..."
+                      : "Type your message or use the mic..."
+                  }
                   className="w-full px-4 py-3 rounded-xl border bg-background placeholder-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 />
               </div>
 
-              <button onClick={handleMicClick} disabled={isThinking} className={`h-12 w-12 flex items-center justify-center rounded-xl ${isListening ? "bg-destructive text-destructive-foreground" : "border hover:bg-accent"}`} aria-label={isListening ? "Stop recording" : "Start voice input"}>
+              <button
+                onClick={handleMicClick}
+                disabled={isThinking}
+                className={`h-12 w-12 flex items-center justify-center rounded-xl ${isListening ? "bg-destructive text-destructive-foreground" : "border hover:bg-accent"}`}
+                aria-label={
+                  isListening ? "Stop recording" : "Start voice input"
+                }
+              >
                 <MicSVG />
               </button>
-              <button onClick={() => handleSendMessage(inputMessage)} disabled={!inputMessage.trim() || isListening || isThinking} className={`h-12 w-12 flex items-center justify-center rounded-xl ${!inputMessage.trim() || isListening || isThinking ? "bg-muted text-muted-foreground" : "bg-primary text-primary-foreground hover:bg-primary/90"}`} aria-label="Send message">
+              <button
+                onClick={() => handleSendMessage(inputMessage)}
+                disabled={!inputMessage.trim() || isListening || isThinking}
+                className={`h-12 w-12 flex items-center justify-center rounded-xl ${!inputMessage.trim() || isListening || isThinking ? "bg-muted text-muted-foreground" : "bg-primary text-primary-foreground hover:bg-primary/90"}`}
+                aria-label="Send message"
+              >
                 <SendSVG />
               </button>
             </div>
-            {isThinking && <div className="mt-2 text-center text-sm text-muted-foreground">Thinking...</div>}
+            {isThinking && (
+              <div className="mt-2 text-center text-sm text-muted-foreground">
+                Thinking...
+              </div>
+            )}
           </footer>
         </div>
       </div>
@@ -550,7 +752,12 @@ export default function Chat() {
           <div className="bg-card p-6 rounded-lg text-center shadow-lg border">
             <h3 className="text-xl font-bold text-destructive mb-2">Error</h3>
             <p className="text-sm">{errorMessage}</p>
-            <button onClick={() => setShowError(false)} className="mt-4 px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">Close</button>
+            <button
+              onClick={() => setShowError(false)}
+              className="mt-4 px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}

@@ -17,7 +17,12 @@ const TEST_DATA: any = {
       "Moving or speaking so slowly that other people could have noticed? Or the opposite—being so fidgety or restless that you have been moving around a lot more than usual?",
       "Thoughts that you would be better off dead or of hurting yourself in some way?",
     ],
-    options: ["Not at all", "Several days", "More than half the days", "Nearly every day"],
+    options: [
+      "Not at all",
+      "Several days",
+      "More than half the days",
+      "Nearly every day",
+    ],
     description: "Assesses common symptoms of depression.",
   },
   gad7: {
@@ -31,7 +36,12 @@ const TEST_DATA: any = {
       "Becoming easily annoyed or irritable?",
       "Feeling afraid as if something awful might happen?",
     ],
-    options: ["Not at all", "Several days", "More than half the days", "Nearly every day"],
+    options: [
+      "Not at all",
+      "Several days",
+      "More than half the days",
+      "Nearly every day",
+    ],
     description: "Focuses on symptoms of generalized anxiety.",
   },
   ghq12: {
@@ -50,12 +60,21 @@ const TEST_DATA: any = {
       "Been thinking of yourself as a worthless person?",
       "Been feeling reasonably happy, all things considered?",
     ],
-    options: ["Better than usual", "Same as usual", "Worse than usual", "Much worse than usual"],
+    options: [
+      "Better than usual",
+      "Same as usual",
+      "Worse than usual",
+      "Much worse than usual",
+    ],
     description: "Measures overall psychological distress and well-being.",
   },
 };
 
-const retryFetch = async (url: string, options: RequestInit = {}, retries = 3) => {
+const retryFetch = async (
+  url: string,
+  options: RequestInit = {},
+  retries = 3,
+) => {
   for (let i = 0; i < retries; i++) {
     try {
       const response = await fetch(url, options);
@@ -64,7 +83,9 @@ const retryFetch = async (url: string, options: RequestInit = {}, retries = 3) =
         const delay = 1000 * (i + 1);
         await new Promise((resolve) => setTimeout(resolve, delay));
       } else {
-        throw new Error(`Failed after ${retries} attempts: ${response.status} ${response.statusText}`);
+        throw new Error(
+          `Failed after ${retries} attempts: ${response.status} ${response.statusText}`,
+        );
       }
     } catch (err: any) {
       if (i < retries - 1) {
@@ -82,7 +103,12 @@ const sessionId = "my-unique-session-id";
 export default function Assessments() {
   const [stage, setStage] = useState("profile");
   const [profile, setProfile] = useState<any>({});
-  const [profileForm, setProfileForm] = useState({ name: "", age: "", occupation: "", reason: "" });
+  const [profileForm, setProfileForm] = useState({
+    name: "",
+    age: "",
+    occupation: "",
+    reason: "",
+  });
   const [selectedTest, setSelectedTest] = useState<string | null>(null);
   const [questionData, setQuestionData] = useState<any>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -96,14 +122,19 @@ export default function Assessments() {
   const [recommendedTest, setRecommendedTest] = useState<string | null>(null);
 
   useEffect(() => {
-    if (chatContainerRef.current) chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    if (chatContainerRef.current)
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
   }, [chatHistory]);
 
   const handleTTS = async (text: string, autoplay = false) => {
     try {
       const formData = new FormData();
       formData.append("text", text);
-      const response = await retryFetch(`${API_BASE_URL}/tts`, { method: "POST", body: formData });
+      const response = await retryFetch(`${API_BASE_URL}/tts`, {
+        method: "POST",
+        body: formData,
+      });
       const audioBlob = await response!.blob();
       const audioUrl = URL.createObjectURL(audioBlob);
       if (audioRef.current) {
@@ -118,7 +149,9 @@ export default function Assessments() {
     }
   };
 
-  const handleProfileFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleProfileFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
     setProfileForm((prev) => ({ ...prev, [name]: value }));
   };
@@ -130,9 +163,27 @@ export default function Assessments() {
 
     const reason = profileForm.reason.toLowerCase();
     let recommendation: string | null = null;
-    if (reason.includes("depress") || reason.includes("sad") || reason.includes("hopeless") || reason.includes("unhappy")) recommendation = "phq9";
-    else if (reason.includes("anxi") || reason.includes("nervous") || reason.includes("worry") || reason.includes("stress")) recommendation = "gad7";
-    else if (reason.includes("difficult") || reason.includes("struggle") || reason.includes("distress") || reason.includes("feelings")) recommendation = "ghq12";
+    if (
+      reason.includes("depress") ||
+      reason.includes("sad") ||
+      reason.includes("hopeless") ||
+      reason.includes("unhappy")
+    )
+      recommendation = "phq9";
+    else if (
+      reason.includes("anxi") ||
+      reason.includes("nervous") ||
+      reason.includes("worry") ||
+      reason.includes("stress")
+    )
+      recommendation = "gad7";
+    else if (
+      reason.includes("difficult") ||
+      reason.includes("struggle") ||
+      reason.includes("distress") ||
+      reason.includes("feelings")
+    )
+      recommendation = "ghq12";
     setRecommendedTest(recommendation);
 
     try {
@@ -141,7 +192,10 @@ export default function Assessments() {
       formData.append("profile_text", profileText);
       formData.append("session_id", sessionId);
 
-      const response = await retryFetch(`${API_BASE_URL}/submit_profile`, { method: "POST", body: formData });
+      const response = await retryFetch(`${API_BASE_URL}/submit_profile`, {
+        method: "POST",
+        body: formData,
+      });
       const data = await response!.json();
       if (data.user_profile) {
         setProfile(data.user_profile);
@@ -150,7 +204,9 @@ export default function Assessments() {
         throw new Error("Failed to submit profile.");
       }
     } catch (err) {
-      setError("Failed to submit profile. Please check your network connection and try again.");
+      setError(
+        "Failed to submit profile. Please check your network connection and try again.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -158,7 +214,8 @@ export default function Assessments() {
 
   const processServerReply = (reply: string) => {
     let cleanedReply = reply;
-    if (cleanedReply.startsWith("AI:")) cleanedReply = cleanedReply.substring(3).trim();
+    if (cleanedReply.startsWith("AI:"))
+      cleanedReply = cleanedReply.substring(3).trim();
     return cleanedReply;
   };
 
@@ -169,7 +226,10 @@ export default function Assessments() {
       const formData = new FormData();
       formData.append("test_name", testName);
       formData.append("session_id", sessionId);
-      const response = await retryFetch(`${API_BASE_URL}/start_session`, { method: "POST", body: formData });
+      const response = await retryFetch(`${API_BASE_URL}/start_session`, {
+        method: "POST",
+        body: formData,
+      });
       const data = await response!.json();
       const rawReply = processServerReply(data.reply);
       setQuestionData(TEST_DATA[testName]);
@@ -188,35 +248,50 @@ export default function Assessments() {
     }
   };
 
-  const handleAnswerSelect = useCallback(async (optionIndex: number) => {
-    setIsLoading(true);
-    setError(null);
-    const userMessage = questionData.options[optionIndex];
-    setChatHistory((prev) => [...prev, { role: "user", content: userMessage }]);
-    try {
-      const formData = new FormData();
-      formData.append("answer_index", String(optionIndex));
-      formData.append("session_id", sessionId);
-      const response = await retryFetch(`${API_BASE_URL}/submit_answer`, { method: "POST", body: formData });
-      const data = await response!.json();
-      const rawReply = processServerReply(data.reply);
-      if (data.status === "completed") {
-        setChatHistory((prev) => [...prev, { role: "guide", content: rawReply, isPlaying: true }]);
-        setEvaluation(data.evaluation);
-        setStage("results");
-        handleTTS(rawReply, true);
-      } else {
-        setChatHistory((prev) => [...prev, { role: "guide", content: rawReply, isPlaying: true }]);
-        setCurrentQuestionIndex((prev) => prev + 1);
-        handleTTS(rawReply, true);
+  const handleAnswerSelect = useCallback(
+    async (optionIndex: number) => {
+      setIsLoading(true);
+      setError(null);
+      const userMessage = questionData.options[optionIndex];
+      setChatHistory((prev) => [
+        ...prev,
+        { role: "user", content: userMessage },
+      ]);
+      try {
+        const formData = new FormData();
+        formData.append("answer_index", String(optionIndex));
+        formData.append("session_id", sessionId);
+        const response = await retryFetch(`${API_BASE_URL}/submit_answer`, {
+          method: "POST",
+          body: formData,
+        });
+        const data = await response!.json();
+        const rawReply = processServerReply(data.reply);
+        if (data.status === "completed") {
+          setChatHistory((prev) => [
+            ...prev,
+            { role: "guide", content: rawReply, isPlaying: true },
+          ]);
+          setEvaluation(data.evaluation);
+          setStage("results");
+          handleTTS(rawReply, true);
+        } else {
+          setChatHistory((prev) => [
+            ...prev,
+            { role: "guide", content: rawReply, isPlaying: true },
+          ]);
+          setCurrentQuestionIndex((prev) => prev + 1);
+          handleTTS(rawReply, true);
+        }
+      } catch (err) {
+        setError("Failed to submit answer. Please try again.");
+        setEvaluation(null);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (err) {
-      setError("Failed to submit answer. Please try again.");
-      setEvaluation(null);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [questionData]);
+    },
+    [questionData],
+  );
 
   const handleNewSession = () => {
     setStage("profile");
@@ -250,25 +325,46 @@ export default function Assessments() {
 
   const renderChatMessages = () => {
     return chatHistory.map((msg, index) => {
-      const displayContent = msg.content.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+      const displayContent = msg.content.replace(
+        /\*\*(.*?)\*\*/g,
+        "<strong>$1</strong>",
+      );
       return (
-        <div key={index} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-          <div className={`p-4 rounded-3xl max-w-lg shadow-sm mb-3 ${msg.role === "user" ? "bg-primary text-primary-foreground" : "bg-accent"}`}>
+        <div
+          key={index}
+          className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+        >
+          <div
+            className={`p-4 rounded-3xl max-w-lg shadow-sm mb-3 ${msg.role === "user" ? "bg-primary text-primary-foreground" : "bg-accent"}`}
+          >
             <div className="flex items-start">
               {msg.role === "guide" && (
-                <button onClick={() => toggleAudio(index)} className="flex-shrink-0 mr-3 mt-1 text-foreground/80 hover:text-primary transition-colors" aria-label="Play guidance">
+                <button
+                  onClick={() => toggleAudio(index)}
+                  className="flex-shrink-0 mr-3 mt-1 text-foreground/80 hover:text-primary transition-colors"
+                  aria-label="Play guidance"
+                >
                   {msg.isPlaying ? (
                     <div className="audio-visualizer flex items-end">
                       <div className="bar bar-1 bg-current h-4 w-1 mx-0.5 rounded-full animate-wave" />
-                      <div className="bar bar-2 bg-current h-6 w-1 mx-0.5 rounded-full animate-wave" style={{ animationDelay: "0.1s" }} />
-                      <div className="bar bar-3 bg-current h-3 w-1 mx-0.5 rounded-full animate-wave" style={{ animationDelay: "0.2s" }} />
+                      <div
+                        className="bar bar-2 bg-current h-6 w-1 mx-0.5 rounded-full animate-wave"
+                        style={{ animationDelay: "0.1s" }}
+                      />
+                      <div
+                        className="bar bar-3 bg-current h-3 w-1 mx-0.5 rounded-full animate-wave"
+                        style={{ animationDelay: "0.2s" }}
+                      />
                     </div>
                   ) : (
                     <Play size={20} />
                   )}
                 </button>
               )}
-              <div className="flex-grow" dangerouslySetInnerHTML={{ __html: displayContent }} />
+              <div
+                className="flex-grow"
+                dangerouslySetInnerHTML={{ __html: displayContent }}
+              />
             </div>
           </div>
         </div>
@@ -281,7 +377,12 @@ export default function Assessments() {
       return (
         <div className="flex flex-col items-center p-8 w-full max-w-lg mx-auto text-destructive">
           <p className="text-center">{error}</p>
-          <button onClick={handleNewSession} className="mt-6 py-2.5 px-6 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90">Start Over</button>
+          <button
+            onClick={handleNewSession}
+            className="mt-6 py-2.5 px-6 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90"
+          >
+            Start Over
+          </button>
         </div>
       );
     }
@@ -290,26 +391,70 @@ export default function Assessments() {
       case "profile":
         return (
           <div className="flex flex-col items-center p-8 w-full max-w-lg mx-auto animate-fade-in">
-            <h2 className="text-2xl font-bold mb-2 text-center">Let's Get Started!</h2>
-            <p className="text-center text-muted-foreground mb-6">A few quick questions to help me guide your screening.</p>
-            <form onSubmit={handleProfileSubmit} className="flex flex-col w-full space-y-5">
+            <h2 className="text-2xl font-bold mb-2 text-center">
+              Let's Get Started!
+            </h2>
+            <p className="text-center text-muted-foreground mb-6">
+              A few quick questions to help me guide your screening.
+            </p>
+            <form
+              onSubmit={handleProfileSubmit}
+              className="flex flex-col w-full space-y-5"
+            >
               <div className="group relative flex items-center rounded-xl border bg-background focus-within:ring-2 focus-within:ring-primary">
                 <User className="absolute left-4 w-5 h-5 text-muted-foreground group-focus-within:text-primary" />
-                <input type="text" name="name" className="w-full p-4 pl-12 bg-transparent rounded-xl outline-none" placeholder="Name" value={profileForm.name} onChange={handleProfileFormChange} required />
+                <input
+                  type="text"
+                  name="name"
+                  className="w-full p-4 pl-12 bg-transparent rounded-xl outline-none"
+                  placeholder="Name"
+                  value={profileForm.name}
+                  onChange={handleProfileFormChange}
+                  required
+                />
               </div>
               <div className="group relative flex items-center rounded-xl border bg-background focus-within:ring-2 focus-within:ring-primary">
                 <Calendar className="absolute left-4 w-5 h-5 text-muted-foreground group-focus-within:text-primary" />
-                <input type="number" name="age" className="w-full p-4 pl-12 bg-transparent rounded-xl outline-none" placeholder="Age" value={profileForm.age} onChange={handleProfileFormChange} required />
+                <input
+                  type="number"
+                  name="age"
+                  className="w-full p-4 pl-12 bg-transparent rounded-xl outline-none"
+                  placeholder="Age"
+                  value={profileForm.age}
+                  onChange={handleProfileFormChange}
+                  required
+                />
               </div>
               <div className="group relative flex items-center rounded-xl border bg-background focus-within:ring-2 focus-within:ring-primary">
                 <Briefcase className="absolute left-4 w-5 h-5 text-muted-foreground group-focus-within:text-primary" />
-                <input type="text" name="occupation" className="w-full p-4 pl-12 bg-transparent rounded-xl outline-none" placeholder="Occupation" value={profileForm.occupation} onChange={handleProfileFormChange} required />
+                <input
+                  type="text"
+                  name="occupation"
+                  className="w-full p-4 pl-12 bg-transparent rounded-xl outline-none"
+                  placeholder="Occupation"
+                  value={profileForm.occupation}
+                  onChange={handleProfileFormChange}
+                  required
+                />
               </div>
               <div className="group relative flex flex-col rounded-xl border bg-background focus-within:ring-2 focus-within:ring-primary">
                 <FileText className="absolute top-4 left-4 w-5 h-5 text-muted-foreground group-focus-within:text-primary" />
-                <textarea name="reason" className="w-full h-32 p-4 pt-12 bg-transparent rounded-xl outline-none" placeholder="Reason for this visit..." value={profileForm.reason} onChange={handleProfileFormChange} required />
+                <textarea
+                  name="reason"
+                  className="w-full h-32 p-4 pt-12 bg-transparent rounded-xl outline-none"
+                  placeholder="Reason for this visit..."
+                  value={profileForm.reason}
+                  onChange={handleProfileFormChange}
+                  required
+                />
               </div>
-              <button type="submit" className="w-full py-3 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90" disabled={isLoading}>{isLoading ? "Submitting..." : "Get Started"}</button>
+              <button
+                type="submit"
+                className="w-full py-3 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90"
+                disabled={isLoading}
+              >
+                {isLoading ? "Submitting..." : "Get Started"}
+              </button>
             </form>
           </div>
         );
@@ -318,78 +463,148 @@ export default function Assessments() {
         const otherTests = allTests.filter((t) => t !== recommendedTest);
         return (
           <div className="flex flex-col items-center p-8 w-full max-w-4xl mx-auto animate-fade-in">
-            <h2 className="text-2xl font-bold mb-8 text-center">Choose a Test</h2>
+            <h2 className="text-2xl font-bold mb-8 text-center">
+              Choose a Test
+            </h2>
             {recommendedTest && (
               <div className="w-full mb-8">
-                <h3 className="text-lg font-bold text-primary mb-4 text-center">Recommended for You</h3>
-                <button onClick={() => handleTestSelect(recommendedTest)} className="w-full p-6 rounded-3xl border-2 border-primary/60 hover:bg-accent transition-colors">
-                  <h4 className="text-xl font-bold mb-2">{TEST_DATA[recommendedTest].name}</h4>
-                  <p className="text-sm text-muted-foreground">{TEST_DATA[recommendedTest].description}</p>
+                <h3 className="text-lg font-bold text-primary mb-4 text-center">
+                  Recommended for You
+                </h3>
+                <button
+                  onClick={() => handleTestSelect(recommendedTest)}
+                  className="w-full p-6 rounded-3xl border-2 border-primary/60 hover:bg-accent transition-colors"
+                >
+                  <h4 className="text-xl font-bold mb-2">
+                    {TEST_DATA[recommendedTest].name}
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    {TEST_DATA[recommendedTest].description}
+                  </p>
                 </button>
               </div>
             )}
             <div className="flex flex-col gap-4 w-full">
-              {recommendedTest && <h3 className="text-lg font-semibold text-center">Or, Choose Another Test</h3>}
+              {recommendedTest && (
+                <h3 className="text-lg font-semibold text-center">
+                  Or, Choose Another Test
+                </h3>
+              )}
               {(recommendedTest ? otherTests : allTests).map((test) => (
-                <button key={test} onClick={() => handleTestSelect(test)} className="w-full p-6 rounded-3xl border hover:bg-accent transition-colors">
-                  <h4 className="text-xl font-bold mb-2">{TEST_DATA[test].name}</h4>
-                  <p className="text-sm text-muted-foreground">{TEST_DATA[test].description}</p>
+                <button
+                  key={test}
+                  onClick={() => handleTestSelect(test)}
+                  className="w-full p-6 rounded-3xl border hover:bg-accent transition-colors"
+                >
+                  <h4 className="text-xl font-bold mb-2">
+                    {TEST_DATA[test].name}
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    {TEST_DATA[test].description}
+                  </p>
                 </button>
               ))}
             </div>
-            {isLoading && <div className="absolute inset-0 bg-background/60 backdrop-blur-sm flex items-center justify-center rounded-3xl"><span className="text-sm">Loading...</span></div>}
+            {isLoading && (
+              <div className="absolute inset-0 bg-background/60 backdrop-blur-sm flex items-center justify-center rounded-3xl">
+                <span className="text-sm">Loading...</span>
+              </div>
+            )}
           </div>
         );
       case "questionnaire":
         const options = questionData.options;
         return (
           <div className="flex flex-col items-center p-8 w-full h-full max-w-4xl mx-auto animate-fade-in">
-            <audio ref={audioRef as any} onEnded={() => { setChatHistory((prev) => prev.map((m) => ({ ...m, isPlaying: false }))); }} />
-            <div ref={chatContainerRef} className="flex-1 w-full overflow-y-auto px-4 py-6 mb-4 border rounded-2xl">
+            <audio
+              ref={audioRef as any}
+              onEnded={() => {
+                setChatHistory((prev) =>
+                  prev.map((m) => ({ ...m, isPlaying: false })),
+                );
+              }}
+            />
+            <div
+              ref={chatContainerRef}
+              className="flex-1 w-full overflow-y-auto px-4 py-6 mb-4 border rounded-2xl"
+            >
               {renderChatMessages()}
             </div>
             <div className="w-full">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {options.map((option: string, index: number) => (
-                  <button key={index} onClick={() => handleAnswerSelect(index)} className="py-3 px-6 rounded-full border hover:bg-accent" disabled={isLoading}>
+                  <button
+                    key={index}
+                    onClick={() => handleAnswerSelect(index)}
+                    className="py-3 px-6 rounded-full border hover:bg-accent"
+                    disabled={isLoading}
+                  >
                     {option}
                   </button>
                 ))}
               </div>
             </div>
-            {isLoading && <div className="absolute inset-0 bg-background/60 backdrop-blur-sm flex items-center justify-center rounded-3xl"><span className="text-sm">Thinking...</span></div>}
+            {isLoading && (
+              <div className="absolute inset-0 bg-background/60 backdrop-blur-sm flex items-center justify-center rounded-3xl">
+                <span className="text-sm">Thinking...</span>
+              </div>
+            )}
           </div>
         );
       case "results":
         const selectedEvaluation = evaluation?.[`${selectedTest}_evaluation`];
         return (
           <div className="flex flex-col items-center p-8 w-full max-w-4xl mx-auto animate-fade-in">
-            <h2 className="text-3xl font-bold mb-6 text-center">Evaluation Report</h2>
+            <h2 className="text-3xl font-bold mb-6 text-center">
+              Evaluation Report
+            </h2>
             {evaluation ? (
               <div className="border p-6 rounded-3xl w-full">
-                <p className="text-muted-foreground mb-6 text-center">{evaluation.summary}</p>
+                <p className="text-muted-foreground mb-6 text-center">
+                  {evaluation.summary}
+                </p>
                 {selectedEvaluation && (
                   <div className="space-y-6">
                     <div className="p-5 rounded-2xl border">
-                      <h3 className="text-xl font-bold mb-2">{TEST_DATA[selectedTest!].name} Evaluation</h3>
-                      <p>Score: <span className="font-semibold text-primary">{selectedEvaluation.score}</span>, Level: <span className="font-semibold text-primary">{selectedEvaluation.level}</span></p>
-                      <p className="text-muted-foreground mt-2">{selectedEvaluation.insights}</p>
+                      <h3 className="text-xl font-bold mb-2">
+                        {TEST_DATA[selectedTest!].name} Evaluation
+                      </h3>
+                      <p>
+                        Score:{" "}
+                        <span className="font-semibold text-primary">
+                          {selectedEvaluation.score}
+                        </span>
+                        , Level:{" "}
+                        <span className="font-semibold text-primary">
+                          {selectedEvaluation.level}
+                        </span>
+                      </p>
+                      <p className="text-muted-foreground mt-2">
+                        {selectedEvaluation.insights}
+                      </p>
                     </div>
                   </div>
                 )}
                 <div className="mt-8 p-5 rounded-2xl border">
                   <h3 className="text-xl font-bold mb-2">Recommendations</h3>
                   <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                    {evaluation.recommendations.map((rec: string, index: number) => (
-                      <li key={index}>{rec}</li>
-                    ))}
+                    {evaluation.recommendations.map(
+                      (rec: string, index: number) => (
+                        <li key={index}>{rec}</li>
+                      ),
+                    )}
                   </ul>
                 </div>
               </div>
             ) : (
               <p className="text-muted-foreground">Loading evaluation...</p>
             )}
-            <button onClick={handleNewSession} className="mt-8 py-3 px-6 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90">Start a New Session</button>
+            <button
+              onClick={handleNewSession}
+              className="mt-8 py-3 px-6 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90"
+            >
+              Start a New Session
+            </button>
           </div>
         );
       default:
@@ -410,7 +625,9 @@ export default function Assessments() {
         .audio-visualizer .bar-3 { animation: wave 0.8s infinite ease-in-out; animation-delay: 0.2s; }
       `}</style>
       <header className="w-full text-center py-2 mb-4">
-        <h1 className="text-3xl font-extrabold tracking-tight">Mental Health Screener</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight">
+          Mental Health Screener
+        </h1>
       </header>
       <main className="flex-1 w-full">{renderStage()}</main>
       <audio ref={audioRef as any} className="hidden" />

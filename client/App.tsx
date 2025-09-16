@@ -25,14 +25,56 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout><Index /></Layout>} />
-          <Route path="/login" element={<Layout><Login /></Layout>} />
-          <Route path="/auth/callback" element={<Layout><AuthCallback /></Layout>} />
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <Index />
+              </Layout>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <Layout>
+                <Login />
+              </Layout>
+            }
+          />
+          <Route
+            path="/auth/callback"
+            element={
+              <Layout>
+                <AuthCallback />
+              </Layout>
+            }
+          />
 
           {/* Feature routes (placeholders for now) */}
-          <Route path="/chat" element={<Layout><Chat /></Layout>} />
-          <Route path="/assessments" element={<Layout><Assessments /></Layout>} />
-          <Route path="/resources" element={<Layout><Resources /></Layout>} />
+          <Route
+            path="/chat"
+            element={
+              <Layout>
+                <Chat />
+              </Layout>
+            }
+          />
+          <Route
+            path="/assessments"
+            element={
+              <Layout>
+                <Assessments />
+              </Layout>
+            }
+          />
+          <Route
+            path="/resources"
+            element={
+              <Layout>
+                <Resources />
+              </Layout>
+            }
+          />
           <Route
             path="/vr"
             element={
@@ -46,7 +88,14 @@ const App = () => (
           />
 
           {/* Catch-all */}
-          <Route path="*" element={<Layout><NotFound /></Layout>} />
+          <Route
+            path="*"
+            element={
+              <Layout>
+                <NotFound />
+              </Layout>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

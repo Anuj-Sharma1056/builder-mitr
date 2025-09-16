@@ -1,4 +1,14 @@
-import { ArrowRight, Bot, Brain, Heart, Headphones, Shield, Sparkles, SquarePen, Trees } from "lucide-react";
+import {
+  ArrowRight,
+  Bot,
+  Brain,
+  Heart,
+  Headphones,
+  Shield,
+  Sparkles,
+  SquarePen,
+  Trees,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Index() {
@@ -19,7 +29,9 @@ export default function Index() {
               MITR — Mental Health Support Platform
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">
-              Private, science-backed tools for your mind. Screen with PHQ‑9, GAD‑7, GHQ‑12, chat with our AI companion, explore CBT resources, and unwind in an immersive VR oasis.
+              Private, science-backed tools for your mind. Screen with PHQ‑9,
+              GAD‑7, GHQ‑12, chat with our AI companion, explore CBT resources,
+              and unwind in an immersive VR oasis.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -37,9 +49,15 @@ export default function Index() {
               </Link>
             </div>
             <div className="mt-6 flex items-center gap-4 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2"><Shield className="h-4 w-4"/> HIPAA‑style privacy</div>
-              <div className="flex items-center gap-2"><Brain className="h-4 w-4"/> Evidence‑based</div>
-              <div className="flex items-center gap-2"><Heart className="h-4 w-4"/> Human‑centric</div>
+              <div className="flex items-center gap-2">
+                <Shield className="h-4 w-4" /> HIPAA‑style privacy
+              </div>
+              <div className="flex items-center gap-2">
+                <Brain className="h-4 w-4" /> Evidence‑based
+              </div>
+              <div className="flex items-center gap-2">
+                <Heart className="h-4 w-4" /> Human‑centric
+              </div>
             </div>
           </div>
 
@@ -58,18 +76,28 @@ export default function Index() {
                     A little overwhelmed. I’d like to breathe and slow down.
                   </div>
                   <div className="w-fit max-w-[85%] rounded-lg bg-white/15 px-3 py-2 text-sm backdrop-blur">
-                    Let’s do a 2‑minute breathing exercise and then a quick PHQ‑9 check‑in.
+                    Let’s do a 2‑minute breathing exercise and then a quick
+                    PHQ‑9 check‑in.
                   </div>
                 </div>
               </div>
               <div className="mt-4 grid grid-cols-3 gap-3">
-                <Link to="/assessments" className="rounded-lg border p-3 text-center text-xs hover:bg-accent">
+                <Link
+                  to="/assessments"
+                  className="rounded-lg border p-3 text-center text-xs hover:bg-accent"
+                >
                   <SquarePen className="mx-auto mb-2 h-4 w-4" /> PHQ‑9
                 </Link>
-                <Link to="/assessments" className="rounded-lg border p-3 text-center text-xs hover:bg-accent">
+                <Link
+                  to="/assessments"
+                  className="rounded-lg border p-3 text-center text-xs hover:bg-accent"
+                >
                   <SquarePen className="mx-auto mb-2 h-4 w-4" /> GAD‑7
                 </Link>
-                <Link to="/assessments" className="rounded-lg border p-3 text-center text-xs hover:bg-accent">
+                <Link
+                  to="/assessments"
+                  className="rounded-lg border p-3 text-center text-xs hover:bg-accent"
+                >
                   <SquarePen className="mx-auto mb-2 h-4 w-4" /> GHQ‑12
                 </Link>
               </div>
@@ -81,10 +109,34 @@ export default function Index() {
       {/* Feature grid */}
       <section className="mx-auto max-w-6xl">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <FeatureCard icon={<Bot className="h-5 w-5" />} title="AI Mental Health Chatbot" desc="24/7 empathetic conversations that guide, reflect, and support." cta="Open chat" to="/chat" />
-          <FeatureCard icon={<SquarePen className="h-5 w-5" />} title="PHQ‑9 • GAD‑7 • GHQ‑12" desc="Clinically‑validated screeners with helpful insights and next steps." cta="Start" to="/assessments" />
-          <FeatureCard icon={<Headphones className="h-5 w-5" />} title="Guided CBT Resources" desc="Curated exercises, worksheets, and guides to build resilient habits." cta="Browse" to="/resources" />
-          <FeatureCard icon={<Trees className="h-5 w-5" />} title="VR Soothing Spaces" desc="Immersive nature scenes for focus, meditation, and breathing." cta="Enter VR" to="/vr" />
+          <FeatureCard
+            icon={<Bot className="h-5 w-5" />}
+            title="AI Mental Health Chatbot"
+            desc="24/7 empathetic conversations that guide, reflect, and support."
+            cta="Open chat"
+            to="/chat"
+          />
+          <FeatureCard
+            icon={<SquarePen className="h-5 w-5" />}
+            title="PHQ‑9 • GAD‑7 • GHQ‑12"
+            desc="Clinically‑validated screeners with helpful insights and next steps."
+            cta="Start"
+            to="/assessments"
+          />
+          <FeatureCard
+            icon={<Headphones className="h-5 w-5" />}
+            title="Guided CBT Resources"
+            desc="Curated exercises, worksheets, and guides to build resilient habits."
+            cta="Browse"
+            to="/resources"
+          />
+          <FeatureCard
+            icon={<Trees className="h-5 w-5" />}
+            title="VR Soothing Spaces"
+            desc="Immersive nature scenes for focus, meditation, and breathing."
+            cta="Enter VR"
+            to="/vr"
+          />
         </div>
       </section>
 
@@ -148,7 +200,17 @@ function FeatureCard({
   );
 }
 
-function ResourceCard({ title, desc, tag, color }: { title: string; desc: string; tag: string; color: string }) {
+function ResourceCard({
+  title,
+  desc,
+  tag,
+  color,
+}: {
+  title: string;
+  desc: string;
+  tag: string;
+  color: string;
+}) {
   return (
     <div className={"relative bg-gradient-to-br p-6 md:p-8 " + color}>
       <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/60 px-3 py-1 text-xs font-semibold text-slate-700 backdrop-blur dark:bg-white/10 dark:text-white">
