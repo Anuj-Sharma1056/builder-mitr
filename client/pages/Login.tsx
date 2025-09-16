@@ -1,7 +1,24 @@
 import { Link } from "react-router-dom";
 import { Mail, Lock } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 export default function Login() {
+  const loginWithGoogle = async () => {
+    if (!supabase) {
+      alert(
+        "Google login is not configured. Please connect Supabase and set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY."
+      );
+      return;
+    }
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+        queryParams: { prompt: "consent" },
+      },
+    });
+  };
+
   return (
     <div className="mx-auto grid w-full max-w-5xl grid-cols-1 overflow-hidden rounded-2xl border bg-card shadow-lg md:grid-cols-2">
       <div className="relative hidden min-h-[420px] md:block">
@@ -75,6 +92,7 @@ export default function Login() {
 
           <button
             type="button"
+            onClick={loginWithGoogle}
             className="w-full rounded-md border px-4 py-2 text-sm font-medium hover:bg-accent"
           >
             Continue with Google
