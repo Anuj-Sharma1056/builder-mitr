@@ -14,6 +14,7 @@ import Placeholder from "./pages/Placeholder";
 import AuthCallback from "./pages/AuthCallback";
 import Chat from "./pages/Chat";
 import Assessments from "./pages/Assessments";
+import Resources from "./pages/Resources";
 
 const queryClient = new QueryClient();
 
@@ -31,17 +32,7 @@ const App = () => (
           {/* Feature routes (placeholders for now) */}
           <Route path="/chat" element={<Layout><Chat /></Layout>} />
           <Route path="/assessments" element={<Layout><Assessments /></Layout>} />
-          <Route
-            path="/resources"
-            element={
-              <Layout>
-                <Placeholder
-                  title="Resources Hub"
-                  description="CBT guides, exercises, and evidence‑based tools to build daily resilience and mindful habits."
-                />
-              </Layout>
-            }
-          />
+          <Route path="/resources" element={<Layout><Resources /></Layout>} />
           <Route
             path="/vr"
             element={
