@@ -12,6 +12,8 @@ import Layout from "./components/Layout";
 import Login from "./pages/Login";
 import Placeholder from "./pages/Placeholder";
 import AuthCallback from "./pages/AuthCallback";
+import Chat from "./pages/Chat";
+import Assessments from "./pages/Assessments";
 
 const queryClient = new QueryClient();
 
@@ -27,28 +29,8 @@ const App = () => (
           <Route path="/auth/callback" element={<Layout><AuthCallback /></Layout>} />
 
           {/* Feature routes (placeholders for now) */}
-          <Route
-            path="/chat"
-            element={
-              <Layout>
-                <Placeholder
-                  title="AI Mental Health Chatbot"
-                  description="Empathetic, private conversations powered by AI to reflect, reframe, and guide you through tough moments."
-                />
-              </Layout>
-            }
-          />
-          <Route
-            path="/assessments"
-            element={
-              <Layout>
-                <Placeholder
-                  title="Assessments: PHQ‑9 • GAD‑7 • GHQ‑12"
-                  description="Clinically‑validated screeners to understand mood, anxiety, and general mental health with supportive insights."
-                />
-              </Layout>
-            }
-          />
+          <Route path="/chat" element={<Layout><Chat /></Layout>} />
+          <Route path="/assessments" element={<Layout><Assessments /></Layout>} />
           <Route
             path="/resources"
             element={
