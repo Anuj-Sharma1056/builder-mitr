@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
 import Placeholder from "./pages/Placeholder";
+import AuthCallback from "./pages/AuthCallback";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Layout><Index /></Layout>} />
           <Route path="/login" element={<Layout><Login /></Layout>} />
+          <Route path="/auth/callback" element={<Layout><AuthCallback /></Layout>} />
 
           {/* Feature routes (placeholders for now) */}
           <Route
