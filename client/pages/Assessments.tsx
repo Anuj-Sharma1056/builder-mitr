@@ -495,6 +495,7 @@ export default function Assessments() {
           recommendations: evaluation?.recommendations || [],
         },
       };
+      console.log(payload, "payload");
       const res = await fetch(EMAIL_WEBHOOK, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
