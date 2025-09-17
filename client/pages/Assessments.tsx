@@ -79,23 +79,24 @@ const retryFetch = async (
     try {
       const response = await fetch(url, options);
       if (response.ok) return response;
-      if (i < retries - 1) {
-        const delay = 1000 * (i + 1);
-        await new Promise((resolve) => setTimeout(resolve, delay));
-      } else {
-        throw new Error(
-          `Failed after ${retries} attempts: ${response.status} ${response.statusText}`,
-        );
-      }
+
+      // If server returned a non-2xx response, read body for debugging
+      const body = await response.text().catch(() => "");
+      throw new Error(`HTTP ${response.status} ${response.statusText} ${body}`);
     } catch (err: any) {
-      if (i < retries - 1) {
-        const delay = 1000 * (i + 1);
+      const isNetwork = err instanceof TypeError || /Failed to fetch|NetworkError|Network request failed/i.test(err.message || "");
+      if (i < retries - 1 && isNetwork) {
+        // exponential backoff
+        const delay = 1000 * Math.pow(2, i);
         await new Promise((resolve) => setTimeout(resolve, delay));
-      } else {
-        throw err;
+        continue;
       }
+      // Re-throw a clearer error
+      const message = isNetwork ? `Network error: ${err.message}` : err.message || String(err);
+      throw new Error(message);
     }
   }
+  throw new Error("Failed to fetch: unknown error");
 };
 
 const sessionId = "my-unique-session-id";
