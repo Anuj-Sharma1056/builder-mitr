@@ -484,14 +484,14 @@ export default function Assessments() {
         selectedTest,
         
         obj1: {
-        summary: evaluation?.summary || "",
           
         },
         obj2: {
-        selected,
 
         },
         evaluation: {         
+        selected,
+        summary: evaluation?.summary,
           recommendations: evaluation?.recommendations || [],
         },
       };
