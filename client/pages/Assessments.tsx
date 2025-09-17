@@ -107,7 +107,7 @@ const retryFetch = async (
 };
 
 const sessionId = "my-unique-session-id";
-
+let selectedEvaluation;
 export default function Assessments() {
   const [stage, setStage] = useState("profile");
   const [profile, setProfile] = useState<any>({});
@@ -491,8 +491,9 @@ export default function Assessments() {
         },
         evaluation: {         
         selected,
+        selectedEvaluation,
         summary: evaluation?.summary,
-          recommendations: evaluation?.recommendations || [],
+        recommendations: evaluation?.recommendations || [],
         },
       };
       console.log(payload, "payload");
@@ -690,7 +691,7 @@ export default function Assessments() {
           </div>
         );
       case "results":
-        const selectedEvaluation = evaluation?.[`${selectedTest}_evaluation`];
+        selectedEvaluation = evaluation?.[`${selectedTest}_evaluation`];
         return (
           <div className="flex flex-col items-center p-8 w-full max-w-4xl mx-auto animate-fade-in">
             <h2 className="text-3xl font-bold mb-6 text-center">
