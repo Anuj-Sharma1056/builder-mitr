@@ -500,18 +500,6 @@ export default function Assessments() {
                   required
                 />
               </div>
-              <div className="group relative flex items-center rounded-xl border bg-background focus-within:ring-2 focus-within:ring-primary">
-                <Briefcase className="absolute left-4 w-5 h-5 text-muted-foreground group-focus-within:text-primary" />
-                <input
-                  type="text"
-                  name="occupation"
-                  className="w-full p-4 pl-12 bg-transparent rounded-xl outline-none"
-                  placeholder="Occupation"
-                  value={profileForm.occupation}
-                  onChange={handleProfileFormChange}
-                  required
-                />
-              </div>
               <div className="group relative flex flex-col rounded-xl border bg-background focus-within:ring-2 focus-within:ring-primary">
                 <FileText className="absolute top-4 left-4 w-5 h-5 text-muted-foreground group-focus-within:text-primary" />
                 <textarea
