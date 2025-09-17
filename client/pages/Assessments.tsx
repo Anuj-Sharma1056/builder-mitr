@@ -743,10 +743,7 @@ const doctors = [
             <h2 className="text-3xl font-bold mb-6 text-center">
               Evaluation Report
             </h2>
-            <h2 className="text-3xl font-bold mb-6 text-center">
-              Doctor Report
-            </h2>
-            <h2>{randomDoctor}??</h2>
+            
             {evaluation ? (
               <div className="border p-6 rounded-3xl w-full">
                 <p className="text-muted-foreground mb-6 text-center">
