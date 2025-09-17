@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { User, Calendar, Briefcase, FileText, Play } from "lucide-react";
+import { User, Calendar, Mail, FileText, Play } from "lucide-react";
 
 const API_BASE_URL = "https://mental-health-screener-v6cy.onrender.com";
 
@@ -112,6 +112,7 @@ export default function Assessments() {
   const [profile, setProfile] = useState<any>({});
   const [profileForm, setProfileForm] = useState({
     name: "",
+    email: "",
     age: "",
     occupation: "",
     reason: "",
@@ -195,7 +196,7 @@ export default function Assessments() {
 
     try {
       const formData = new FormData();
-      const profileText = `Name: ${profileForm.name}\nAge: ${profileForm.age}\nOccupation: ${profileForm.occupation}\nReason for visit: ${profileForm.reason}`;
+      const profileText = `Name: ${profileForm.name}\nEmail: ${profileForm.email}\nAge: ${profileForm.age}\nOccupation: ${profileForm.occupation}\nReason for visit: ${profileForm.reason}`;
       formData.append("profile_text", profileText);
       formData.append("session_id", sessionId);
 
@@ -220,6 +221,7 @@ export default function Assessments() {
         );
         const simulatedProfile = {
           name: profileForm.name || "Anonymous",
+          email: profileForm.email || "",
           age: profileForm.age || "",
           occupation: profileForm.occupation || "",
           reason: profileForm.reason || "",
@@ -371,7 +373,7 @@ export default function Assessments() {
   const handleNewSession = () => {
     setStage("profile");
     setProfile({});
-    setProfileForm({ name: "", age: "", occupation: "", reason: "" });
+    setProfileForm({ name: "", email: "", age: "", occupation: "", reason: "" });
     setSelectedTest(null);
     setQuestionData({});
     setChatHistory([]);
@@ -484,6 +486,18 @@ export default function Assessments() {
                   className="w-full p-4 pl-12 bg-transparent rounded-xl outline-none"
                   placeholder="Name"
                   value={profileForm.name}
+                  onChange={handleProfileFormChange}
+                  required
+                />
+              </div>
+              <div className="group relative flex items-center rounded-xl border bg-background focus-within:ring-2 focus-within:ring-primary">
+                <Mail className="absolute left-4 w-5 h-5 text-muted-foreground group-focus-within:text-primary" />
+                <input
+                  type="email"
+                  name="email"
+                  className="w-full p-4 pl-12 bg-transparent rounded-xl outline-none"
+                  placeholder="Email"
+                  value={profileForm.email}
                   onChange={handleProfileFormChange}
                   required
                 />
