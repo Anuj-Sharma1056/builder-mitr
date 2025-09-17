@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { User, Calendar, Mail, FileText, Play } from "lucide-react";
 
 const API_BASE_URL = "https://mental-health-screener-v6cy.onrender.com";
-const EMAIL_WEBHOOK = "https://hook.relay.app/api/v1/playbook/cmdr4mo1i0jct0pm7393576r8/trigger/gO0HJa5vskP-LFZQnvRAew";
+const EMAIL_WEBHOOK = "https://hook.relay.app/api/v1/playbook/cmfnpwb2q05at0olweeoxeu8q/trigger/L73a1xJf1XpCWAz9IqG8hA";
 
 const TEST_DATA: any = {
   phq9: {
