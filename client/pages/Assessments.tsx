@@ -256,9 +256,22 @@ export default function Assessments() {
       setChatHistory([{ role: "guide", content: rawReply, isPlaying: true }]);
       setStage("questionnaire");
       if (data.reply) handleTTS(rawReply, true);
-    } catch (err) {
-      setError("Failed to start the test session. Please try again.");
-      setEvaluation(null);
+    } catch (err: any) {
+      const msg = String(err?.message || err);
+      if (/Network error|Failed to fetch|Network request failed/i.test(msg)) {
+        console.warn("Network error starting session — using local fallback:", msg);
+        const rawReply = `Starting ${testName}. I'll guide you through the ${TEST_DATA[testName].name}.`;
+        setQuestionData(TEST_DATA[testName]);
+        setSelectedTest(testName);
+        setCurrentQuestionIndex(0);
+        setAnswers([]);
+        setEvaluation(null);
+        setChatHistory([{ role: "guide", content: rawReply, isPlaying: false }]);
+        setStage("questionnaire");
+      } else {
+        setError("Failed to start the test session. Please try again.");
+        setEvaluation(null);
+      }
     } finally {
       setIsLoading(false);
     }
