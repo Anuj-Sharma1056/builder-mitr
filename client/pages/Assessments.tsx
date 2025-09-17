@@ -482,9 +482,9 @@ export default function Assessments() {
         subject,
         text: textLines.filter(Boolean).join("\n"),
         selectedTest,
-        evaluation: {
-          summary: evaluation?.summary || "",
-          selected,
+        summary: evaluation?.summary || "",
+        selected,
+        evaluation: {         
           recommendations: evaluation?.recommendations || [],
         },
       };
