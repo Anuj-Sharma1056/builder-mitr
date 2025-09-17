@@ -487,7 +487,7 @@ const doctors = [
   }
 ];
 
-
+  let randomDoctor;
   const sendResultsEmail = async () => {
     const email = (profileForm.email || "").trim();
     if (!email) {
@@ -511,7 +511,7 @@ const doctors = [
         "Recommendations:",
         ...((evaluation?.recommendations || []).map((r: string) => `- ${r}`)),
       ];
-      const randomDoctor = doctors[Math.floor(Math.random() * doctors.length)];
+      randomDoctor = doctors[Math.floor(Math.random() * doctors.length)];
       const payload = {
         email,
         subject,
@@ -739,6 +739,8 @@ const doctors = [
             <h2 className="text-3xl font-bold mb-6 text-center">
               Evaluation Report
             </h2>
+
+            <h2>{randomDoctor}</h2>
             {evaluation ? (
               <div className="border p-6 rounded-3xl w-full">
                 <p className="text-muted-foreground mb-6 text-center">
