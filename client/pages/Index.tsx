@@ -136,23 +136,39 @@ export default function Index() {
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-xl border p-4">
               <div className="text-3xl font-extrabold text-primary">1 in 8</div>
-              <p className="mt-1 text-sm text-muted-foreground">people globally live with a mental health condition.</p>
-              <p className="mt-1 text-[11px] text-muted-foreground/70">Source: WHO</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                people globally live with a mental health condition.
+              </p>
+              <p className="mt-1 text-[11px] text-muted-foreground/70">
+                Source: WHO
+              </p>
             </div>
             <div className="rounded-xl border p-4">
               <div className="text-3xl font-extrabold text-primary">~20%</div>
-              <p className="mt-1 text-sm text-muted-foreground">of adolescents experience mental health challenges.</p>
-              <p className="mt-1 text-[11px] text-muted-foreground/70">Source: WHO/UNICEF</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                of adolescents experience mental health challenges.
+              </p>
+              <p className="mt-1 text-[11px] text-muted-foreground/70">
+                Source: WHO/UNICEF
+              </p>
             </div>
             <div className="rounded-xl border p-4">
               <div className="text-3xl font-extrabold text-primary">#1–2</div>
-              <p className="mt-1 text-sm text-muted-foreground">Anxiety & depression are leading causes of disability.</p>
-              <p className="mt-1 text-[11px] text-muted-foreground/70">Source: Global Burden of Disease</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Anxiety & depression are leading causes of disability.
+              </p>
+              <p className="mt-1 text-[11px] text-muted-foreground/70">
+                Source: Global Burden of Disease
+              </p>
             </div>
             <div className="rounded-xl border p-4">
               <div className="text-3xl font-extrabold text-primary">Early</div>
-              <p className="mt-1 text-sm text-muted-foreground">support improves outcomes and quality of life.</p>
-              <p className="mt-1 text-[11px] text-muted-foreground/70">Consensus across clinical guidelines</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                support improves outcomes and quality of life.
+              </p>
+              <p className="mt-1 text-[11px] text-muted-foreground/70">
+                Consensus across clinical guidelines
+              </p>
             </div>
           </div>
         </div>
@@ -164,30 +180,67 @@ export default function Index() {
           <div className="rounded-2xl border bg-card p-6">
             <h3 className="text-lg font-semibold">How MITR helps</h3>
             <ul className="mt-4 space-y-4 text-sm text-muted-foreground">
-              <li><span className="block text-3xl font-extrabold text-primary">24/7</span> Always‑on AI support for check‑ins and grounding.</li>
-              <li><span className="block text-3xl font-extrabold text-primary">3</span> Validated screeners: PHQ‑9, GAD‑7, GHQ‑12 with guidance.</li>
-              <li><span className="block text-3xl font-extrabold text-primary">2 min</span> Quick breathing to reduce arousal before assessments.</li>
-              <li><span className="block text-3xl font-extrabold text-primary">0</span> No medical advice. We complement—not replace—care.</li>
+              <li>
+                <span className="block text-3xl font-extrabold text-primary">
+                  24/7
+                </span>{" "}
+                Always‑on AI support for check‑ins and grounding.
+              </li>
+              <li>
+                <span className="block text-3xl font-extrabold text-primary">
+                  3
+                </span>{" "}
+                Validated screeners: PHQ‑9, GAD‑7, GHQ‑12 with guidance.
+              </li>
+              <li>
+                <span className="block text-3xl font-extrabold text-primary">
+                  2 min
+                </span>{" "}
+                Quick breathing to reduce arousal before assessments.
+              </li>
+              <li>
+                <span className="block text-3xl font-extrabold text-primary">
+                  0
+                </span>{" "}
+                No medical advice. We complement—not replace—care.
+              </li>
             </ul>
           </div>
           <div className="rounded-2xl border bg-card p-6 lg:col-span-2">
             <h3 className="text-lg font-semibold">FAQs</h3>
             <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
               <details className="rounded-lg border p-3 [&_summary]:cursor-pointer">
-                <summary className="font-medium">Is MITR a replacement for therapy?</summary>
-                <p className="mt-2 text-sm text-muted-foreground">No. MITR offers education and support but is not a substitute for professional care.</p>
+                <summary className="font-medium">
+                  Is MITR a replacement for therapy?
+                </summary>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  No. MITR offers education and support but is not a substitute
+                  for professional care.
+                </p>
               </details>
               <details className="rounded-lg border p-3 [&_summary]:cursor-pointer">
-                <summary className="font-medium">Are my assessment results stored?</summary>
-                <p className="mt-2 text-sm text-muted-foreground">We store them to show progress and insights. You can request deletion anytime.</p>
+                <summary className="font-medium">
+                  Are my assessment results stored?
+                </summary>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  We store them to show progress and insights. You can request
+                  deletion anytime.
+                </p>
               </details>
               <details className="rounded-lg border p-3 [&_summary]:cursor-pointer">
                 <summary className="font-medium">How do I get started?</summary>
-                <p className="mt-2 text-sm text-muted-foreground">Begin with a PHQ‑9 check‑in or open the AI chat for a grounding exercise.</p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Begin with a PHQ‑9 check‑in or open the AI chat for a
+                  grounding exercise.
+                </p>
               </details>
               <details className="rounded-lg border p-3 [&_summary]:cursor-pointer">
-                <summary className="font-medium">Does MITR work on mobile?</summary>
-                <p className="mt-2 text-sm text-muted-foreground">Yes, it’s optimized for phones, tablets, and desktops.</p>
+                <summary className="font-medium">
+                  Does MITR work on mobile?
+                </summary>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Yes, it’s optimized for phones, tablets, and desktops.
+                </p>
               </details>
             </div>
           </div>
