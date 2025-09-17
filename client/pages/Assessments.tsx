@@ -536,10 +536,11 @@ const doctors = [
           selectedEvaluation: {
             score: selectedEvaluation?.score,
             level: selectedEvaluation?.level,
-          insights:selectedEvaluation?.insights,
+            insights: selectedEvaluation?.insights,
         },
+          recommendations: evaluation?.recommendation,
         summary: evaluation?.summary,
-        recommendations: evaluation?.recommendations || [],
+        // recommendations: evaluation?.recommendations || [],
         },
       };
       console.log(payload, "payload");
