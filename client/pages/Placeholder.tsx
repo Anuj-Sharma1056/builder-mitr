@@ -4,9 +4,13 @@ import { Sparkles } from "lucide-react";
 export default function Placeholder({
   title,
   description,
+  ctaHref,
+  ctaLabel,
 }: {
   title: string;
   description: string;
+  ctaHref?: string;
+  ctaLabel?: string;
 }) {
   return (
     <div className="mx-auto max-w-3xl">
@@ -21,20 +25,16 @@ export default function Placeholder({
               {title}
             </h1>
             <p className="mt-2 text-muted-foreground">{description}</p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link
-                to="/assessments"
-                className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
-              >
-                Start a screening
-              </Link>
-              <Link
-                to="/resources"
-                className="inline-flex items-center rounded-md border px-4 py-2 text-sm font-medium hover:bg-accent"
-              >
-                Explore resources
-              </Link>
-            </div>
+            {ctaHref && ctaLabel && (
+              <div className="mt-6">
+                <a
+                  href={ctaHref}
+                  className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
+                >
+                  {ctaLabel}
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>

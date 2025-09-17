@@ -82,6 +82,8 @@ const App = () => (
                 <Placeholder
                   title="VR Agent: Soothing Spaces"
                   description="Immerse yourself in calming nature scenes for focus, meditation, and breathing exercises."
+                  ctaLabel="Start VR Session"
+                  ctaHref="https://mitr-eight.vercel.app/"
                 />
               </Layout>
             }

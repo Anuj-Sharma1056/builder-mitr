@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { User, Calendar, Briefcase, FileText, Play } from "lucide-react";
+import { User, Calendar, Mail, FileText, Play } from "lucide-react";
 
 const API_BASE_URL = "https://mental-health-screener-v6cy.onrender.com";
+const EMAIL_WEBHOOK = "https://hook.relay.app/api/v1/playbook/cmdr4mo1i0jct0pm7393576r8/trigger/gO0HJa5vskP-LFZQnvRAew";
 
 const TEST_DATA: any = {
   phq9: {
@@ -106,12 +107,13 @@ const retryFetch = async (
 };
 
 const sessionId = "my-unique-session-id";
-
+let selectedEvaluation;
 export default function Assessments() {
   const [stage, setStage] = useState("profile");
   const [profile, setProfile] = useState<any>({});
   const [profileForm, setProfileForm] = useState({
     name: "",
+    email: "",
     age: "",
     occupation: "",
     reason: "",
@@ -127,6 +129,8 @@ export default function Assessments() {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [recommendedTest, setRecommendedTest] = useState<string | null>(null);
+  const [emailSending, setEmailSending] = useState(false);
+  const [emailStatus, setEmailStatus] = useState<string | null>(null);
 
   useEffect(() => {
     if (chatContainerRef.current)
@@ -195,7 +199,7 @@ export default function Assessments() {
 
     try {
       const formData = new FormData();
-      const profileText = `Name: ${profileForm.name}\nAge: ${profileForm.age}\nOccupation: ${profileForm.occupation}\nReason for visit: ${profileForm.reason}`;
+      const profileText = `Name: ${profileForm.name}\nEmail: ${profileForm.email}\nAge: ${profileForm.age}\nOccupation: ${profileForm.occupation}\nReason for visit: ${profileForm.reason}`;
       formData.append("profile_text", profileText);
       formData.append("session_id", sessionId);
 
@@ -220,6 +224,7 @@ export default function Assessments() {
         );
         const simulatedProfile = {
           name: profileForm.name || "Anonymous",
+          email: profileForm.email || "",
           age: profileForm.age || "",
           occupation: profileForm.occupation || "",
           reason: profileForm.reason || "",
@@ -371,7 +376,7 @@ export default function Assessments() {
   const handleNewSession = () => {
     setStage("profile");
     setProfile({});
-    setProfileForm({ name: "", age: "", occupation: "", reason: "" });
+    setProfileForm({ name: "", email: "", age: "", occupation: "", reason: "" });
     setSelectedTest(null);
     setQuestionData({});
     setChatHistory([]);
@@ -379,6 +384,8 @@ export default function Assessments() {
     setCurrentQuestionIndex(0);
     setAnswers([]);
     setError(null);
+    setEmailSending(false);
+    setEmailStatus(null);
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
@@ -447,6 +454,110 @@ export default function Assessments() {
     });
   };
 
+const doctors = [
+  { 
+    name: "Dr. Amit Sharma", 
+    contact: "9876543210", 
+    position: "Psychologist", 
+    degree: "M.Phil Clinical Psychology" 
+  },
+  { 
+    name: "Dr. Neha Verma", 
+    contact: "9123456780", 
+    position: "Psychiatrist", 
+    degree: "MD Psychiatry" 
+  },
+  { 
+    name: "Dr. Rajesh Gupta", 
+    contact: "9988776655", 
+    position: "Counseling Psychologist", 
+    degree: "M.A. Psychology" 
+  },
+  { 
+    name: "Dr. Priya Nair", 
+    contact: "9012345678", 
+    position: "Child Psychologist", 
+    degree: "Ph.D. Child Psychology" 
+  },
+  { 
+    name: "Dr. Arjun Mehta", 
+    contact: "9098765432", 
+    position: "Mental Health Therapist", 
+    degree: "MSW, Certified CBT Practitioner" 
+  }
+];
+
+  let randomDoctor;
+  const sendResultsEmail = async () => {
+    const email = (profileForm.email || "").trim();
+    if (!email) {
+      setEmailStatus("Email missing. Please enter your email at the start.");
+      return;
+    }
+    setEmailSending(true);
+    setEmailStatus(null);
+    try {
+      const selected = evaluation?.[`${selectedTest}_evaluation`] || null;
+      const subject = `Your ${selectedTest ? TEST_DATA[selectedTest].name : "Assessment"} Results`;
+      const textLines = [
+        `Hello ${profileForm.name || "there"},`,
+        "",
+        `Here are your ${selectedTest ? TEST_DATA[selectedTest].name : "assessment"} results:`,
+        selected ? `Score: ${selected.score}, Level: ${selected.level}` : "",
+        selected?.insights ? `Insights: ${selected.insights}` : "",
+        "",
+        `Summary: ${evaluation?.summary || ""}`,
+        "",
+        "Recommendations:",
+        ...((evaluation?.recommendations || []).map((r: string) => `- ${r}`)),
+      ];
+      randomDoctor = doctors[Math.floor(Math.random() * doctors.length)];
+      const payload = {
+        email,
+        subject,
+        text: textLines.filter(Boolean).join("\n"),
+        selectedTest,
+        
+        obj1: {
+          
+        },
+        obj2: {
+
+        },
+        doctors: {
+          name: randomDoctor?.name,
+          degree: randomDoctor?.degree,
+          contact: randomDoctor?.contact,
+          position:randomDoctor?.position
+
+        },
+        evaluation: {
+          selected,
+          selectedEvaluation: {
+            score: selectedEvaluation?.score,
+            level: selectedEvaluation?.level,
+            insights: selectedEvaluation?.insights,
+          },
+          recommendations: evaluation?.recommendations,
+          summary: evaluation?.summary,
+        },
+        
+      };
+      console.log(payload, "payload");
+      const res = await fetch(EMAIL_WEBHOOK, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setEmailStatus("Email sent successfully.");
+    } catch (err: any) {
+      setEmailStatus(`Failed to send email. Please try again.${err}`);
+    } finally {
+      setEmailSending(false);
+    }
+  };
+
   const renderStage = () => {
     if (error) {
       return (
@@ -489,6 +600,18 @@ export default function Assessments() {
                 />
               </div>
               <div className="group relative flex items-center rounded-xl border bg-background focus-within:ring-2 focus-within:ring-primary">
+                <Mail className="absolute left-4 w-5 h-5 text-muted-foreground group-focus-within:text-primary" />
+                <input
+                  type="email"
+                  name="email"
+                  className="w-full p-4 pl-12 bg-transparent rounded-xl outline-none"
+                  placeholder="Email"
+                  value={profileForm.email}
+                  onChange={handleProfileFormChange}
+                  required
+                />
+              </div>
+              <div className="group relative flex items-center rounded-xl border bg-background focus-within:ring-2 focus-within:ring-primary">
                 <Calendar className="absolute left-4 w-5 h-5 text-muted-foreground group-focus-within:text-primary" />
                 <input
                   type="number"
@@ -500,24 +623,12 @@ export default function Assessments() {
                   required
                 />
               </div>
-              <div className="group relative flex items-center rounded-xl border bg-background focus-within:ring-2 focus-within:ring-primary">
-                <Briefcase className="absolute left-4 w-5 h-5 text-muted-foreground group-focus-within:text-primary" />
-                <input
-                  type="text"
-                  name="occupation"
-                  className="w-full p-4 pl-12 bg-transparent rounded-xl outline-none"
-                  placeholder="Occupation"
-                  value={profileForm.occupation}
-                  onChange={handleProfileFormChange}
-                  required
-                />
-              </div>
               <div className="group relative flex flex-col rounded-xl border bg-background focus-within:ring-2 focus-within:ring-primary">
                 <FileText className="absolute top-4 left-4 w-5 h-5 text-muted-foreground group-focus-within:text-primary" />
                 <textarea
                   name="reason"
                   className="w-full h-32 p-4 pt-12 bg-transparent rounded-xl outline-none"
-                  placeholder="Reason for this visit..."
+                  placeholder="Describe your mental state"
                   value={profileForm.reason}
                   onChange={handleProfileFormChange}
                   required
@@ -627,12 +738,13 @@ export default function Assessments() {
           </div>
         );
       case "results":
-        const selectedEvaluation = evaluation?.[`${selectedTest}_evaluation`];
+        selectedEvaluation = evaluation?.[`${selectedTest}_evaluation`];
         return (
           <div className="flex flex-col items-center p-8 w-full max-w-4xl mx-auto animate-fade-in">
             <h2 className="text-3xl font-bold mb-6 text-center">
               Evaluation Report
             </h2>
+            
             {evaluation ? (
               <div className="border p-6 rounded-3xl w-full">
                 <p className="text-muted-foreground mb-6 text-center">
@@ -674,12 +786,24 @@ export default function Assessments() {
             ) : (
               <p className="text-muted-foreground">Loading evaluation...</p>
             )}
-            <button
-              onClick={handleNewSession}
-              className="mt-8 py-3 px-6 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90"
-            >
-              Start a New Session
-            </button>
+            <div className="mt-8 flex flex-col items-center gap-3">
+              <button
+                onClick={sendResultsEmail}
+                className="py-3 px-6 rounded-full border font-semibold hover:bg-accent"
+                disabled={emailSending || !profileForm.email}
+              >
+                {emailSending ? "Sending..." : "Email Me This Report"}
+              </button>
+              {emailStatus && (
+                <p className="text-sm text-muted-foreground">{emailStatus}</p>
+              )}
+              <button
+                onClick={handleNewSession}
+                className="py-3 px-6 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90"
+              >
+                Start a New Session
+              </button>
+            </div>
           </div>
         );
       default:
