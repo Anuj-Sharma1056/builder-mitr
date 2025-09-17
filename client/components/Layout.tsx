@@ -12,7 +12,9 @@ const navItems = [
 import { useState } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [modal, setModal] = useState<null | "privacy" | "terms" | "contact">(null);
+  const [modal, setModal] = useState<null | "privacy" | "terms" | "contact">(
+    null,
+  );
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#f4fbfb] to-white dark:from-[#0b1220] dark:to-[#0b1220] text-foreground">
       <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-black/20 border-b">
@@ -66,9 +68,24 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             © {new Date().getFullYear()} MITR — Mental Wellness, with a friend.
           </p>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <button className="hover:text-foreground" onClick={() => setModal("privacy")}>Privacy</button>
-            <button className="hover:text-foreground" onClick={() => setModal("terms")}>Terms</button>
-            <button className="hover:text-foreground" onClick={() => setModal("contact")}>Contact</button>
+            <button
+              className="hover:text-foreground"
+              onClick={() => setModal("privacy")}
+            >
+              Privacy
+            </button>
+            <button
+              className="hover:text-foreground"
+              onClick={() => setModal("terms")}
+            >
+              Terms
+            </button>
+            <button
+              className="hover:text-foreground"
+              onClick={() => setModal("contact")}
+            >
+              Contact
+            </button>
           </div>
         </div>
       </footer>
@@ -82,26 +99,46 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {modal === "terms" && "Terms of Use (Simulated)"}
                 {modal === "contact" && "Contact (Simulated)"}
               </h3>
-              <button onClick={() => setModal(null)} className="rounded-md border px-3 py-1.5 text-sm hover:bg-accent">Close</button>
+              <button
+                onClick={() => setModal(null)}
+                className="rounded-md border px-3 py-1.5 text-sm hover:bg-accent"
+              >
+                Close
+              </button>
             </div>
             <div className="p-4 space-y-4 text-sm leading-6 max-h-[70vh] overflow-auto">
               {modal === "privacy" && (
                 <div>
-                  <p>We respect your privacy. Data you enter is processed to provide the MITR experience. We do not sell personal data. Sessions may be stored to improve your experience.</p>
+                  <p>
+                    We respect your privacy. Data you enter is processed to
+                    provide the MITR experience. We do not sell personal data.
+                    Sessions may be stored to improve your experience.
+                  </p>
                   <ul className="list-disc pl-5 mt-2 text-muted-foreground">
-                    <li>Encryption in transit; secure storage where applicable.</li>
+                    <li>
+                      Encryption in transit; secure storage where applicable.
+                    </li>
                     <li>You can request deletion by contacting us.</li>
-                    <li>Third‑party services (e.g., auth, analytics) may process limited data.</li>
+                    <li>
+                      Third‑party services (e.g., auth, analytics) may process
+                      limited data.
+                    </li>
                   </ul>
                 </div>
               )}
               {modal === "terms" && (
                 <div>
-                  <p>MITR is for education and wellbeing support only and is not a substitute for professional diagnosis, treatment, or therapy.</p>
+                  <p>
+                    MITR is for education and wellbeing support only and is not
+                    a substitute for professional diagnosis, treatment, or
+                    therapy.
+                  </p>
                   <h4 className="font-semibold mt-3">Do</h4>
                   <ul className="list-disc pl-5 text-muted-foreground">
                     <li>Use screeners and resources as guidance.</li>
-                    <li>Consult licensed professionals for medical decisions.</li>
+                    <li>
+                      Consult licensed professionals for medical decisions.
+                    </li>
                     <li>Contact emergency services if you are in danger.</li>
                   </ul>
                   <h4 className="font-semibold mt-3">Don’t</h4>
@@ -109,7 +146,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     <li>Rely on MITR for crisis intervention.</li>
                     <li>Share passwords or sensitive financial data.</li>
                   </ul>
-                  <p className="mt-3 text-muted-foreground">By using MITR you agree to these simulated terms.</p>
+                  <p className="mt-3 text-muted-foreground">
+                    By using MITR you agree to these simulated terms.
+                  </p>
                 </div>
               )}
               {modal === "contact" && (
@@ -120,11 +159,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     <li>Phone: +1 (555) 010‑9020</li>
                     <li>Office hours: Mon–Fri 9:00–17:00 (IST)</li>
                   </ul>
-                  <p className="mt-3 text-muted-foreground">For emergencies, call your local emergency number immediately.</p>
+                  <p className="mt-3 text-muted-foreground">
+                    For emergencies, call your local emergency number
+                    immediately.
+                  </p>
                 </div>
               )}
               <div className="rounded-md border bg-accent/40 p-3 text-xs">
-                Disclaimer: MITR does not provide medical advice. If you are thinking about harming yourself or others, or are in immediate danger, call local emergency services or a crisis hotline right away.
+                Disclaimer: MITR does not provide medical advice. If you are
+                thinking about harming yourself or others, or are in immediate
+                danger, call local emergency services or a crisis hotline right
+                away.
               </div>
             </div>
           </div>

@@ -148,19 +148,27 @@ export default function Index() {
             <h3 className="text-lg font-semibold">How MITR helps</h3>
             <ul className="mt-4 space-y-4 text-sm text-muted-foreground">
               <li>
-                <span className="block text-3xl font-extrabold text-primary">24/7</span>
+                <span className="block text-3xl font-extrabold text-primary">
+                  24/7
+                </span>
                 Always‑on AI support for check‑ins and grounding.
               </li>
               <li>
-                <span className="block text-3xl font-extrabold text-primary">3</span>
+                <span className="block text-3xl font-extrabold text-primary">
+                  3
+                </span>
                 Validated screeners: PHQ‑9, GAD‑7, GHQ‑12 with guidance.
               </li>
               <li>
-                <span className="block text-3xl font-extrabold text-primary">2 min</span>
+                <span className="block text-3xl font-extrabold text-primary">
+                  2 min
+                </span>
                 Quick breathing to reduce arousal before assessments.
               </li>
               <li>
-                <span className="block text-3xl font-extrabold text-primary">0</span>
+                <span className="block text-3xl font-extrabold text-primary">
+                  0
+                </span>
                 No medical advice. We complement—not replace—care.
               </li>
             </ul>
@@ -170,10 +178,17 @@ export default function Index() {
           <div className="rounded-2xl border bg-card p-6">
             <h3 className="text-lg font-semibold">Good to know</h3>
             <ul className="mt-4 space-y-3 text-sm text-muted-foreground list-disc pl-4">
-              <li>Your data stays private and is used to power your experience.</li>
+              <li>
+                Your data stays private and is used to power your experience.
+              </li>
               <li>You can export or delete your data by contacting support.</li>
-              <li>Resources are curated from trusted sources and reviewed routinely.</li>
-              <li>MITR is mobile‑friendly and works offline for saved guides.</li>
+              <li>
+                Resources are curated from trusted sources and reviewed
+                routinely.
+              </li>
+              <li>
+                MITR is mobile‑friendly and works offline for saved guides.
+              </li>
             </ul>
           </div>
 
@@ -182,16 +197,29 @@ export default function Index() {
             <h3 className="text-lg font-semibold">FAQs</h3>
             <div className="mt-4 space-y-3">
               <details className="rounded-lg border p-3 [&_summary]:cursor-pointer">
-                <summary className="font-medium">Is MITR a replacement for therapy?</summary>
-                <p className="mt-2 text-sm text-muted-foreground">No. MITR offers education and support but is not a substitute for professional care.</p>
+                <summary className="font-medium">
+                  Is MITR a replacement for therapy?
+                </summary>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  No. MITR offers education and support but is not a substitute
+                  for professional care.
+                </p>
               </details>
               <details className="rounded-lg border p-3 [&_summary]:cursor-pointer">
-                <summary className="font-medium">Are my assessment results stored?</summary>
-                <p className="mt-2 text-sm text-muted-foreground">We store them to show progress and insights. You can request deletion anytime.</p>
+                <summary className="font-medium">
+                  Are my assessment results stored?
+                </summary>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  We store them to show progress and insights. You can request
+                  deletion anytime.
+                </p>
               </details>
               <details className="rounded-lg border p-3 [&_summary]:cursor-pointer">
                 <summary className="font-medium">How do I get started?</summary>
-                <p className="mt-2 text-sm text-muted-foreground">Begin with a quick PHQ‑9 check‑in or open the AI chat for a grounding exercise.</p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Begin with a quick PHQ‑9 check‑in or open the AI chat for a
+                  grounding exercise.
+                </p>
               </details>
             </div>
           </div>
