@@ -454,6 +454,40 @@ export default function Assessments() {
     });
   };
 
+const doctors = [
+  { 
+    name: "Dr. Amit Sharma", 
+    contact: "+91-9876543210", 
+    position: "Psychologist", 
+    degree: "M.Phil Clinical Psychology" 
+  },
+  { 
+    name: "Dr. Neha Verma", 
+    contact: "+91-9123456780", 
+    position: "Psychiatrist", 
+    degree: "MD Psychiatry" 
+  },
+  { 
+    name: "Dr. Rajesh Gupta", 
+    contact: "+91-9988776655", 
+    position: "Counseling Psychologist", 
+    degree: "M.A. Psychology" 
+  },
+  { 
+    name: "Dr. Priya Nair", 
+    contact: "+91-9012345678", 
+    position: "Child Psychologist", 
+    degree: "Ph.D. Child Psychology" 
+  },
+  { 
+    name: "Dr. Arjun Mehta", 
+    contact: "+91-9098765432", 
+    position: "Mental Health Therapist", 
+    degree: "MSW, Certified CBT Practitioner" 
+  }
+];
+
+
   const sendResultsEmail = async () => {
     const email = (profileForm.email || "").trim();
     if (!email) {
@@ -477,6 +511,7 @@ export default function Assessments() {
         "Recommendations:",
         ...((evaluation?.recommendations || []).map((r: string) => `- ${r}`)),
       ];
+      const randomDoctor = doctors[Math.floor(Math.random() * doctors.length)];
       const payload = {
         email,
         subject,
@@ -489,6 +524,13 @@ export default function Assessments() {
         obj2: {
 
         },
+        doctors: {
+          name: randomDoctor?.name,
+          degree: randomDoctor?.degree,
+          contact: randomDoctor?.contact,
+          position:randomDoctor?.position
+
+        }
         evaluation: {         
         selected,
         selectedEvaluation,
