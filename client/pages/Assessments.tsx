@@ -533,7 +533,11 @@ const doctors = [
         },
         evaluation: {         
         selected,
-        selectedEvaluation,
+          selectedEvaluation: {
+            score: selectedEvaluation?.score,
+            level: selectedEvaluation?.level,
+          insights:selectedEvaluation?.insights,
+        },
         summary: evaluation?.summary,
         recommendations: evaluation?.recommendations || [],
         },
