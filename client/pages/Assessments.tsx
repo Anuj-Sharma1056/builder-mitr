@@ -84,7 +84,11 @@ const retryFetch = async (
       const body = await response.text().catch(() => "");
       throw new Error(`HTTP ${response.status} ${response.statusText} ${body}`);
     } catch (err: any) {
-      const isNetwork = err instanceof TypeError || /Failed to fetch|NetworkError|Network request failed/i.test(err.message || "");
+      const isNetwork =
+        err instanceof TypeError ||
+        /Failed to fetch|NetworkError|Network request failed/i.test(
+          err.message || "",
+        );
       if (i < retries - 1 && isNetwork) {
         // exponential backoff
         const delay = 1000 * Math.pow(2, i);
@@ -92,7 +96,9 @@ const retryFetch = async (
         continue;
       }
       // Re-throw a clearer error
-      const message = isNetwork ? `Network error: ${err.message}` : err.message || String(err);
+      const message = isNetwork
+        ? `Network error: ${err.message}`
+        : err.message || String(err);
       throw new Error(message);
     }
   }
@@ -208,7 +214,10 @@ export default function Assessments() {
       // If network error, fallback to a simulated success so user can continue
       const msg = String(err?.message || err);
       if (/Network error|Failed to fetch|Network request failed/i.test(msg)) {
-        console.warn("Network error submitting profile — using local fallback:", msg);
+        console.warn(
+          "Network error submitting profile — using local fallback:",
+          msg,
+        );
         const simulatedProfile = {
           name: profileForm.name || "Anonymous",
           age: profileForm.age || "",
@@ -259,14 +268,19 @@ export default function Assessments() {
     } catch (err: any) {
       const msg = String(err?.message || err);
       if (/Network error|Failed to fetch|Network request failed/i.test(msg)) {
-        console.warn("Network error starting session — using local fallback:", msg);
+        console.warn(
+          "Network error starting session — using local fallback:",
+          msg,
+        );
         const rawReply = `Starting ${testName}. I'll guide you through the ${TEST_DATA[testName].name}.`;
         setQuestionData(TEST_DATA[testName]);
         setSelectedTest(testName);
         setCurrentQuestionIndex(0);
         setAnswers([]);
         setEvaluation(null);
-        setChatHistory([{ role: "guide", content: rawReply, isPlaying: false }]);
+        setChatHistory([
+          { role: "guide", content: rawReply, isPlaying: false },
+        ]);
         setStage("questionnaire");
       } else {
         setError("Failed to start the test session. Please try again.");
@@ -315,18 +329,27 @@ export default function Assessments() {
       } catch (err: any) {
         const msg = String(err?.message || err);
         if (/Network error|Failed to fetch|Network request failed/i.test(msg)) {
-          console.warn("Network error submitting answer — using local fallback:", msg);
+          console.warn(
+            "Network error submitting answer — using local fallback:",
+            msg,
+          );
           // Simulate progression
           const nextIndex = currentQuestionIndex + 1;
           const isLast = nextIndex >= (questionData.questions?.length || 1);
           const simulatedReply = isLast
             ? "Thank you. Your responses are complete. Here are some helpful next steps."
             : `Thanks — next question (${nextIndex + 1}).`;
-          setChatHistory((prev) => [...prev, { role: "guide", content: simulatedReply, isPlaying: false }]);
+          setChatHistory((prev) => [
+            ...prev,
+            { role: "guide", content: simulatedReply, isPlaying: false },
+          ]);
           if (isLast) {
             const simulatedEvaluation = {
               summary: "Simulated evaluation based on your answers.",
-              recommendations: ["Consider brief CBT exercises", "If concerned, contact a professional"],
+              recommendations: [
+                "Consider brief CBT exercises",
+                "If concerned, contact a professional",
+              ],
             };
             setEvaluation(simulatedEvaluation as any);
             setStage("results");
