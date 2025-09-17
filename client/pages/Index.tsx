@@ -48,17 +48,6 @@ export default function Index() {
                 Talk to AI
               </Link>
             </div>
-            <div className="mt-6 flex items-center gap-4 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <Shield className="h-4 w-4" /> HIPAA‑style privacy
-              </div>
-              <div className="flex items-center gap-2">
-                <Brain className="h-4 w-4" /> Evidence‑based
-              </div>
-              <div className="flex items-center gap-2">
-                <Heart className="h-4 w-4" /> Human‑centric
-              </div>
-            </div>
           </div>
 
           {/* Hero preview card */}
