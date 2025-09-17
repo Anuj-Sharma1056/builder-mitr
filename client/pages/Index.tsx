@@ -26,7 +26,7 @@ export default function Index() {
               Your companion for calm
             </div>
             <h1 className="mt-4 text-4xl font-extrabold tracking-tight md:text-5xl">
-              MITR — Mental Health Support Platform
+              MITR — Mental Health Support Platform for Students
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">
               Private, science-backed tools for your mind. Screen with PHQ‑9,
