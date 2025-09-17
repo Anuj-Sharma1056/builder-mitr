@@ -519,7 +519,7 @@ export default function Assessments() {
                 <textarea
                   name="reason"
                   className="w-full h-32 p-4 pt-12 bg-transparent rounded-xl outline-none"
-                  placeholder="Reason for this visit..."
+                  placeholder="Describe your mental state"
                   value={profileForm.reason}
                   onChange={handleProfileFormChange}
                   required
