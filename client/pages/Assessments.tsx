@@ -530,7 +530,7 @@ const doctors = [
           contact: randomDoctor?.contact,
           position:randomDoctor?.position
 
-        }
+        },
         evaluation: {         
         selected,
         selectedEvaluation,
