@@ -496,7 +496,7 @@ export default function Assessments() {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setEmailStatus("Email sent successfully.");
     } catch (err: any) {
-      setEmailStatus("Failed to send email. Please try again.");
+      setEmailStatus(`Failed to send email. Please try again.${err}`);
     } finally {
       setEmailSending(false);
     }
