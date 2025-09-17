@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { User, Calendar, Mail, FileText, Play } from "lucide-react";
 
 const API_BASE_URL = "https://mental-health-screener-v6cy.onrender.com";
+const EMAIL_WEBHOOK = "https://hook.relay.app/api/v1/playbook/cmdr4mo1i0jct0pm7393576r8/trigger/gO0HJa5vskP-LFZQnvRAew";
 
 const TEST_DATA: any = {
   phq9: {
@@ -128,6 +129,8 @@ export default function Assessments() {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [recommendedTest, setRecommendedTest] = useState<string | null>(null);
+  const [emailSending, setEmailSending] = useState(false);
+  const [emailStatus, setEmailStatus] = useState<string | null>(null);
 
   useEffect(() => {
     if (chatContainerRef.current)
@@ -381,6 +384,8 @@ export default function Assessments() {
     setCurrentQuestionIndex(0);
     setAnswers([]);
     setError(null);
+    setEmailSending(false);
+    setEmailStatus(null);
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
@@ -447,6 +452,54 @@ export default function Assessments() {
         </div>
       );
     });
+  };
+
+  const sendResultsEmail = async () => {
+    const email = (profileForm.email || "").trim();
+    if (!email) {
+      setEmailStatus("Email missing. Please enter your email at the start.");
+      return;
+    }
+    setEmailSending(true);
+    setEmailStatus(null);
+    try {
+      const selected = evaluation?.[`${selectedTest}_evaluation`] || null;
+      const subject = `Your ${selectedTest ? TEST_DATA[selectedTest].name : "Assessment"} Results`;
+      const textLines = [
+        `Hello ${profileForm.name || "there"},`,
+        "",
+        `Here are your ${selectedTest ? TEST_DATA[selectedTest].name : "assessment"} results:`,
+        selected ? `Score: ${selected.score}, Level: ${selected.level}` : "",
+        selected?.insights ? `Insights: ${selected.insights}` : "",
+        "",
+        `Summary: ${evaluation?.summary || ""}`,
+        "",
+        "Recommendations:",
+        ...((evaluation?.recommendations || []).map((r: string) => `- ${r}`)),
+      ];
+      const payload = {
+        email,
+        subject,
+        text: textLines.filter(Boolean).join("\n"),
+        selectedTest,
+        evaluation: {
+          summary: evaluation?.summary || "",
+          selected,
+          recommendations: evaluation?.recommendations || [],
+        },
+      };
+      const res = await fetch(EMAIL_WEBHOOK, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setEmailStatus("Email sent successfully.");
+    } catch (err: any) {
+      setEmailStatus("Failed to send email. Please try again.");
+    } finally {
+      setEmailSending(false);
+    }
   };
 
   const renderStage = () => {
@@ -676,12 +729,24 @@ export default function Assessments() {
             ) : (
               <p className="text-muted-foreground">Loading evaluation...</p>
             )}
-            <button
-              onClick={handleNewSession}
-              className="mt-8 py-3 px-6 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90"
-            >
-              Start a New Session
-            </button>
+            <div className="mt-8 flex flex-col items-center gap-3">
+              <button
+                onClick={sendResultsEmail}
+                className="py-3 px-6 rounded-full border font-semibold hover:bg-accent"
+                disabled={emailSending || !profileForm.email}
+              >
+                {emailSending ? "Sending..." : "Email Me This Report"}
+              </button>
+              {emailStatus && (
+                <p className="text-sm text-muted-foreground">{emailStatus}</p>
+              )}
+              <button
+                onClick={handleNewSession}
+                className="py-3 px-6 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90"
+              >
+                Start a New Session
+              </button>
+            </div>
           </div>
         );
       default:
