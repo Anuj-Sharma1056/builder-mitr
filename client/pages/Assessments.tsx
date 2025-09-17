@@ -457,31 +457,31 @@ export default function Assessments() {
 const doctors = [
   { 
     name: "Dr. Amit Sharma", 
-    contact: "+91-9876543210", 
+    contact: "9876543210", 
     position: "Psychologist", 
     degree: "M.Phil Clinical Psychology" 
   },
   { 
     name: "Dr. Neha Verma", 
-    contact: "+91-9123456780", 
+    contact: "9123456780", 
     position: "Psychiatrist", 
     degree: "MD Psychiatry" 
   },
   { 
     name: "Dr. Rajesh Gupta", 
-    contact: "+91-9988776655", 
+    contact: "9988776655", 
     position: "Counseling Psychologist", 
     degree: "M.A. Psychology" 
   },
   { 
     name: "Dr. Priya Nair", 
-    contact: "+91-9012345678", 
+    contact: "9012345678", 
     position: "Child Psychologist", 
     degree: "Ph.D. Child Psychology" 
   },
   { 
     name: "Dr. Arjun Mehta", 
-    contact: "+91-9098765432", 
+    contact: "9098765432", 
     position: "Mental Health Therapist", 
     degree: "MSW, Certified CBT Practitioner" 
   }
