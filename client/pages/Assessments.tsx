@@ -531,17 +531,17 @@ const doctors = [
           position:randomDoctor?.position
 
         },
-        evaluation: {         
-        selected,
+        evaluation: {
+          selected,
           selectedEvaluation: {
             score: selectedEvaluation?.score,
             level: selectedEvaluation?.level,
             insights: selectedEvaluation?.insights,
-        },
+          },
           recommendations: evaluation?.recommendations,
-        summary: evaluation?.summary,
-        // recommendations: evaluation?.recommendations || [],
+          summary: evaluation?.summary,
         },
+        
       };
       console.log(payload, "payload");
       const res = await fetch(EMAIL_WEBHOOK, {
